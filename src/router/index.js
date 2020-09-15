@@ -15,6 +15,12 @@ const routes = [
       import(/* webpackChunkName: "films" */ "../views/Films.vue")
   },
   {
+    path: "/films/:id",
+    name: "Film",
+    props: true,
+    component: () => import(/* webpackChunkName: "film" */ "../views/Film.vue")
+  },
+  {
     path: "/characters",
     name: "Characters",
     component: () =>
@@ -49,6 +55,16 @@ const routes = [
     name: "About",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue")
+  },
+  {
+    path: "/404",
+    name: "Error404",
+    component: () =>
+      import(/* webpackChunkName: "error404" */ "../views/Error404.vue")
+  },
+  {
+    path: "*",
+    redirect: "/404"
   }
 ];
 

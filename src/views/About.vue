@@ -9,7 +9,4 @@
 
 <style lang="scss" scoped>
 @use "@/css/variables.scss";
-a {
-  color: variables.$link;
-}
 </style>

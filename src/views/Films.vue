@@ -1,7 +1,14 @@
 <template>
   <div>
     <h1>Films</h1>
-    <Table :items="films" :columns="columns" />
+
+    <Table :items="films" :columns="columns">
+      <template v-slot:title="slotProps">
+        <router-link :to="apiToRoute(slotProps.item.url)">
+          {{ slotProps.item.title }}
+        </router-link>
+      </template>
+    </Table>
   </div>
 </template>
 
@@ -22,6 +29,12 @@ export default {
       ]
     };
   },
+  methods: {
+    apiToRoute(url) {
+      let cleanUrl = url.replace(/\/$/, ""); // remove trailing '/'
+      return `/films/${cleanUrl.split("/").pop()}`;
+    }
+  },
   created() {
     // Fetch all films
     api.films().then(re => {
@@ -32,4 +45,6 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@use "@/css/variables";
+</style>

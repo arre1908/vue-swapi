@@ -20,6 +20,8 @@
       <button v-if="next" @click="fetchData()" :disabled="isLoading">
         {{ isLoading ? "Loading..." : "Load More" }}
       </button>
+
+      <h3 v-if="error">{{ error }}</h3>
     </div>
 
     <h4 v-else>{{ error || "Loading..." }}</h4>
@@ -44,8 +46,8 @@ export default {
   },
   methods: {
     fetchData() {
-      // Fetch data
       this.isLoading = true;
+      this.error = "";
       apiClient
         .get(this.next)
         .then(re => {
@@ -54,6 +56,7 @@ export default {
         })
         .catch(err => {
           console.log(err);
+          this.error = err;
         })
         .finally(() => {
           this.isLoading = false;

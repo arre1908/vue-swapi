@@ -18,10 +18,10 @@ export default {
       links: [
         { path: "/films", name: "Films" },
         { path: "/characters", name: "Characters" },
-        // { path: "/planets", name: "Planets" },
-        // { path: "/species", name: "Species" },
-        // { path: "/starships", name: "Starships" },
-        // { path: "/vehicles", name: "Vehicles" },
+        { path: "/planets", name: "Planets" },
+        { path: "/species", name: "Species" },
+        { path: "/starships", name: "Starships" },
+        { path: "/vehicles", name: "Vehicles" },
         { path: "/about", name: "About" }
       ]
     };
@@ -31,6 +31,7 @@ export default {
 
 <style lang="scss" scoped>
 @use "@/css/variables.scss";
+
 header {
   margin: 30px 0;
   text-align: center;

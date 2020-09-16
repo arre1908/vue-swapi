@@ -26,30 +26,30 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "characters" */ "../views/Characters.vue")
   },
-  // {
-  //   path: "/planets",
-  //   name: "Planets",
-  //   component: () =>
-  //     import(/* webpackChunkName: "films" */ "../views/Films.vue")
-  // },
-  // {
-  //   path: "/species",
-  //   name: "Species",
-  //   component: () =>
-  //     import(/* webpackChunkName: "films" */ "../views/Films.vue")
-  // },
-  // {
-  //   path: "/starships",
-  //   name: "Starships",
-  //   component: () =>
-  //     import(/* webpackChunkName: "films" */ "../views/Films.vue")
-  // },
-  // {
-  //   path: "/vehicles",
-  //   name: "Vehicles",
-  //   component: () =>
-  //     import(/* webpackChunkName: "characters" */ "../views/Characters.vue")
-  // },
+  {
+    path: "/planets",
+    name: "Planets",
+    component: () =>
+      import(/* webpackChunkName: "planets" */ "../views/Planets.vue")
+  },
+  {
+    path: "/species",
+    name: "Species",
+    component: () =>
+      import(/* webpackChunkName: "species" */ "../views/Species.vue")
+  },
+  {
+    path: "/starships",
+    name: "Starships",
+    component: () =>
+      import(/* webpackChunkName: "starships" */ "../views/Starships.vue")
+  },
+  {
+    path: "/vehicles",
+    name: "Vehicles",
+    component: () =>
+      import(/* webpackChunkName: "vehicles" */ "../views/Vehicles.vue")
+  },
   {
     path: "/about",
     name: "About",

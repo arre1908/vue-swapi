@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import api from "../apiService";
+import { apiClient } from "../apiService";
 
 export default {
   props: {
@@ -25,7 +25,7 @@ export default {
     };
   },
   created() {
-    api.films(this.$props.id).then(re => {
+    apiClient.get(`films/${this.id}/`).then(re => {
       this.film = re.data;
     });
   }

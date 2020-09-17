@@ -1,5 +1,14 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import Films from "@/views/Films.vue";
+import Film from "@/views/info/Film.vue";
+import Characters from "@/views/Characters.vue";
+import Planets from "@/views/Planets.vue";
+import Species from "@/views/Species.vue";
+import Starships from "@/views/Starships.vue";
+import Vehicles from "@/views/Vehicles.vue";
+import About from "@/views/About.vue";
+import Error404 from "@/views/Error404.vue";
 
 Vue.use(VueRouter);
 
@@ -11,57 +20,48 @@ const routes = [
   {
     path: "/films",
     name: "Films",
-    component: () =>
-      import(/* webpackChunkName: "films" */ "../views/Films.vue")
+    component: Films
   },
   {
     path: "/films/:id",
     name: "Film",
     props: true,
-    component: () =>
-      import(/* webpackChunkName: "film" */ "../views/info/Film.vue")
+    component: Film
   },
   {
     path: "/people",
     name: "Characters",
-    component: () =>
-      import(/* webpackChunkName: "characters" */ "../views/Characters.vue")
+    component: Characters
   },
   {
     path: "/planets",
     name: "Planets",
-    component: () =>
-      import(/* webpackChunkName: "planets" */ "../views/Planets.vue")
+    component: Planets
   },
   {
     path: "/species",
     name: "Species",
-    component: () =>
-      import(/* webpackChunkName: "species" */ "../views/Species.vue")
+    component: Species
   },
   {
     path: "/starships",
     name: "Starships",
-    component: () =>
-      import(/* webpackChunkName: "starships" */ "../views/Starships.vue")
+    component: Starships
   },
   {
     path: "/vehicles",
     name: "Vehicles",
-    component: () =>
-      import(/* webpackChunkName: "vehicles" */ "../views/Vehicles.vue")
+    component: Vehicles
   },
   {
     path: "/about",
     name: "About",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
+    component: About
   },
   {
     path: "/404",
     name: "Error404",
-    component: () =>
-      import(/* webpackChunkName: "error404" */ "../views/Error404.vue")
+    component: Error404
   },
   {
     path: "*",

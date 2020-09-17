@@ -10,6 +10,7 @@
 import Table from "@/components/Table";
 
 export default {
+  components: { Table },
   data() {
     return {
       columns: [
@@ -19,8 +20,7 @@ export default {
         { key: "population", label: "Population" }
       ]
     };
-  },
-  components: { Table }
+  }
 };
 </script>
 

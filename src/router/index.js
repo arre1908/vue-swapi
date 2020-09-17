@@ -18,10 +18,11 @@ const routes = [
     path: "/films/:id",
     name: "Film",
     props: true,
-    component: () => import(/* webpackChunkName: "film" */ "../views/Film.vue")
+    component: () =>
+      import(/* webpackChunkName: "film" */ "../views/info/Film.vue")
   },
   {
-    path: "/characters",
+    path: "/people",
     name: "Characters",
     component: () =>
       import(/* webpackChunkName: "characters" */ "../views/Characters.vue")

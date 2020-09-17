@@ -8,3 +8,23 @@ $link: #fceb00;
 a {
   color: $link;
 }
+
+button {
+  background-color: $link;
+  padding: 5px;
+  border: none;
+  color: $bg-primary;
+  font-weight: bold;
+  cursor: pointer;
+
+  &:focus,
+  &:disabled {
+    background-color: $bg-secondary;
+    color: $text-primary;
+    outline: none;
+  }
+
+  &:disabled {
+    cursor: initial;
+  }
+}

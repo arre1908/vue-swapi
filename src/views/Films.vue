@@ -1,22 +1,15 @@
 <template>
   <div>
     <h1>Films</h1>
-
-    <Table url="films/" :columns="columns">
-      <template v-slot:title="slotProps">
-        <router-link :to="`/films/${getRouteId(slotProps.item.url)}`">
-          {{ slotProps.item.title }}
-        </router-link>
-      </template>
-    </Table>
+    <Table url="films/" :columns="columns" />
   </div>
 </template>
 
 <script>
-import { getRouteId } from "../apiService.js";
 import Table from "@/components/Table";
 
 export default {
+  components: { Table },
   data() {
     return {
       columns: [
@@ -26,9 +19,7 @@ export default {
         { key: "release_date", label: "Release Date" }
       ]
     };
-  },
-  methods: { getRouteId: getRouteId },
-  components: { Table }
+  }
 };
 </script>
 

@@ -1,22 +1,20 @@
 import axios from "axios";
 
+const baseURL = "http://swapi.dev/api/";
+
 const apiClient = axios.create({
-  baseURL: "https://swapi.dev/api/",
+  baseURL: baseURL,
   headers: {
     Accept: "application/json"
   }
 });
 
-function getRouteId(url) {
-  let cleanUrl = url.replace(/\/$/, ""); // remove trailing '/'
-  return cleanUrl.split("/").pop();
+function stripBaseUrl(url) {
+  if (baseURL.indexOf("http") === -1) {
+    return url.replace(baseURL.replace("http", "https"), "");
+  } else {
+    return url.replace(baseURL, "");
+  }
 }
 
-const api = {
-  films: (id = "") => apiClient.get(`films/${id && `${id}/`}`),
-  characters: (id = "") => apiClient.get(`people/${id && `${id}/`}`)
-};
-
-export { apiClient, getRouteId };
-
-export default api;
+export { apiClient, stripBaseUrl };

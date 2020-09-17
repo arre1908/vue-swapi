@@ -2,12 +2,6 @@
   <div>
     <h1>Characters</h1>
     <Table url="people/" :columns="columns">
-      <template v-slot:name="slotProps">
-        <router-link :to="`/characters/${getRouteId(slotProps.item.url)}`">
-          {{ slotProps.item.name }}
-        </router-link>
-      </template>
-
       <template v-slot:height="slotProps">
         {{ slotProps.item.height / 100 }}
       </template>
@@ -16,10 +10,10 @@
 </template>
 
 <script>
-import { getRouteId } from "../apiService";
 import Table from "@/components/Table";
 
 export default {
+  components: { Table },
   data() {
     return {
       columns: [
@@ -29,9 +23,7 @@ export default {
         { key: "birth_year", label: "Birth Year" }
       ]
     };
-  },
-  methods: { getRouteId: getRouteId },
-  components: { Table }
+  }
 };
 </script>
 

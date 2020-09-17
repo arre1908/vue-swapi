@@ -8,16 +8,21 @@
         <tbody>
           <tr v-for="[index, item] of items.entries()" :key="index">
             <td v-for="col of columns" :key="col.key">
-              <!-- Optional slot for any cell (uses column 'key' as the name) -->
-              <slot :name="col.key" :item="item">
+              <!-- Name / Title links -->
+              <router-link
+                v-if="col.key == 'name' || col.key == 'title'"
+                :to="stripBaseUrl(item.url)"
+              >
                 {{ item[col.key] }}
-              </slot>
+              </router-link>
+
+              <span v-else>{{ item[col.key] }}</span>
             </td>
           </tr>
         </tbody>
       </table>
 
-      <button v-if="next" @click="fetchData()" :disabled="isLoading">
+      <button v-if="next" :disabled="isLoading" @click="fetchData()">
         {{ isLoading ? "Loading..." : "Load More" }}
       </button>
 
@@ -29,7 +34,7 @@
 </template>
 
 <script>
-import { apiClient } from "../apiService";
+import { apiClient, stripBaseUrl } from "../apiService";
 
 export default {
   props: {
@@ -38,24 +43,30 @@ export default {
   },
   data() {
     return {
-      isLoading: true,
       items: [],
-      next: null,
+      next: "",
+      isLoading: true,
       error: ""
     };
   },
+  created() {
+    // Initialize 'next' URL from props
+    this.next = this.url;
+    this.fetchData();
+  },
   methods: {
+    stripBaseUrl: stripBaseUrl,
     fetchData() {
       this.isLoading = true;
       this.error = "";
       apiClient
         .get(this.next)
         .then(re => {
+          // Append response data to list of items (table rows)
           this.items = this.items.concat(re.data.results);
           this.next = re.data.next;
         })
         .catch(err => {
-          console.log(err);
           this.error = err;
         })
         .finally(() => {
@@ -63,10 +74,6 @@ export default {
           window.scrollTo(0, document.body.scrollHeight);
         });
     }
-  },
-  created() {
-    this.next = this.url;
-    this.fetchData();
   }
 };
 </script>
@@ -76,26 +83,6 @@ export default {
 
 .table-container {
   margin: 30px 0;
-}
-
-button {
-  background-color: variables.$link;
-  padding: 5px 0;
-  width: 100%;
-  border: none;
-  color: variables.$bg-primary;
-  cursor: pointer;
-
-  &:focus,
-  &:disabled {
-    background-color: variables.$bg-secondary;
-    color: variables.$text-primary;
-    outline: none;
-  }
-
-  &:disabled {
-    cursor: initial;
-  }
 }
 
 table {
@@ -115,5 +102,9 @@ th {
 
 td {
   border: 1px solid variables.$bg-secondary;
+}
+
+button {
+  width: 100%;
 }
 </style>

@@ -17,7 +17,7 @@ export default {
     return {
       links: [
         { path: "/films", name: "Films" },
-        { path: "/characters", name: "Characters" },
+        { path: "/people", name: "Characters" },
         { path: "/planets", name: "Planets" },
         { path: "/species", name: "Species" },
         { path: "/starships", name: "Starships" },

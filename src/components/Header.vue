@@ -4,7 +4,12 @@
       <img alt="Vue-SWAPI logo" src="../assets/logo.png" />
     </div>
     <nav>
-      <router-link v-for="link of links" :key="link.path" :to="link.path">
+      <router-link
+        v-for="link of links"
+        :key="link.path"
+        :to="link.path"
+        class="button nav-link"
+      >
         {{ link.name }}
       </router-link>
     </nav>
@@ -38,13 +43,14 @@ header {
 }
 
 nav {
-  a {
+  line-height: 3.5;
+
+  .nav-link {
     background: variables.$link;
     color: variables.$bg-primary;
     margin: 0 10px;
     padding: 10px;
     font-weight: bold;
-    line-height: 3.5;
     text-decoration: none;
 
     &.router-link-exact-active {

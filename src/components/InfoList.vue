@@ -29,6 +29,7 @@
           <button
             v-if="!linkData[key].length"
             :disabled="isLoading[key]"
+            class="button"
             @click="resolveLinks(key)"
           >
             {{ isLoading[key] ? "Loading.." : "Load" }}
@@ -97,7 +98,7 @@ ul {
   list-style-type: none;
 
   li {
-    margin: 5px 0;
+    margin: 10px 0;
   }
 }
 </style>

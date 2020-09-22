@@ -22,7 +22,13 @@
         </tbody>
       </table>
 
-      <button v-if="next" :disabled="isLoading" @click="fetchData()">
+      <!-- Load more -->
+      <button
+        v-if="next"
+        :disabled="isLoading"
+        class="button"
+        @click="fetchData()"
+      >
         {{ isLoading ? "Loading..." : "Load More" }}
       </button>
 
@@ -93,18 +99,22 @@ table {
 
 th,
 td {
-  padding: 5px;
+  border: none;
+  padding: 10px;
 }
 
 th {
-  border: 1px solid variables.$text-primary;
+  border-bottom: 1px solid variables.$text-primary;
+  text-align: left;
 }
 
 td {
-  border: 1px solid variables.$bg-secondary;
+  border-bottom: 1px solid variables.$bg-secondary;
 }
 
-button {
+.button {
   width: 100%;
+  border-radius: 0;
+  padding: 10px;
 }
 </style>

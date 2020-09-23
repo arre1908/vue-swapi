@@ -7,33 +7,37 @@
     <div class="list">
       <!-- Info -->
       <div v-for="k of keys" :key="k.key">
-        <h2>{{ k.label }}</h2>
+        <h3>{{ k.label }}</h3>
         <slot :name="k.key">
-          {{ item[k.key] }}
+          <div class="text">
+            {{ item[k.key] }}
+          </div>
         </slot>
       </div>
 
       <!-- Links -->
       <div v-for="[key, l] of Object.entries(links)" :key="key">
-        <div v-if="l.links.length">
-          <h2>{{ l.label }}</h2>
+        <div v-if="l.urls.length">
+          <h3>{{ l.label }}</h3>
 
-          <ul>
-            <li v-for="[index, data] of linkData[key].entries()" :key="index">
-              <router-link :to="stripBaseUrl(data.url)">
-                {{ data.name || data.title }}
-              </router-link>
-            </li>
-          </ul>
+          <div class="text">
+            <ul>
+              <li v-for="[index, data] of linkData[key].entries()" :key="index">
+                <router-link :to="stripBaseUrl(data.url)">
+                  {{ data.name || data.title }}
+                </router-link>
+              </li>
+            </ul>
 
-          <button
-            v-if="!linkData[key].length"
-            :disabled="isLoading[key]"
-            class="button"
-            @click="resolveLinks(key)"
-          >
-            {{ isLoading[key] ? "Loading.." : "Load" }}
-          </button>
+            <button
+              v-if="!linkData[key].length"
+              :disabled="isLoading[key]"
+              class="button"
+              @click="resolveLinks(key)"
+            >
+              {{ isLoading[key] ? "Loading.." : "Load" }}
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -66,11 +70,12 @@ export default {
     stripBaseUrl: stripBaseUrl,
     resolveLinks(key) {
       // Load data from list of API links
-      let promises = this.links[key].links.map(link => apiClient.get(link));
+      let promises = this.links[key].urls.map(url => apiClient.get(url));
       this.isLoading[key] = true;
 
       Promise.all(promises)
         .then(responses => {
+          // E.g. linkData["starships"] = [{}, {}, ...]
           this.linkData[key] = responses.map(re => re.data);
         })
         .finally(() => {
@@ -90,7 +95,11 @@ export default {
 }
 
 .list {
-  padding: 20px;
+  margin: 20px 0;
+
+  .text {
+    margin-left: 10px;
+  }
 }
 
 ul {

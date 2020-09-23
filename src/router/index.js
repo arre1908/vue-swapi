@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Films from "@/views/Films.vue";
 import Film from "@/views/info/Film.vue";
 import Characters from "@/views/Characters.vue";
+import Character from "@/views/info/Character.vue";
 import Planets from "@/views/Planets.vue";
 import Species from "@/views/Species.vue";
 import Starships from "@/views/Starships.vue";
@@ -32,6 +33,12 @@ const routes = [
     path: "/people",
     name: "Characters",
     component: Characters
+  },
+  {
+    path: "/people/:id",
+    name: "Character",
+    props: true,
+    component: Character
   },
   {
     path: "/planets",

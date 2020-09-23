@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "http://swapi.dev/api/";
+const baseURL = "http://swapi.dev/api";
 
 const apiClient = axios.create({
   baseURL: baseURL,

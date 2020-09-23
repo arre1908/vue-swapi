@@ -33,11 +33,11 @@ export default {
         { key: "producer", label: "Producer" }
       ],
       links: {
-        starships: { label: "Starships" },
-        planets: { label: "Planets" },
-        vehicles: { label: "Vehicles" },
-        characters: { label: "Characters" }
-        // species: { label: "Species" }
+        starships: { label: "Starships", urls: [] },
+        planets: { label: "Planets", urls: [] },
+        vehicles: { label: "Vehicles", urls: [] },
+        characters: { label: "Characters", urls: [] }
+        // species: { label: "Species", urls: [] }
       },
       error: ""
     };
@@ -58,11 +58,11 @@ export default {
         .then(re => {
           // Destructor assignment of data members from response object
           ({
-            starships: this.links.starships.links,
-            planets: this.links.planets.links,
-            vehicles: this.links.vehicles.links,
-            characters: this.links.characters.links,
-            // species: this.links.species.links,
+            starships: this.links.starships.urls,
+            planets: this.links.planets.urls,
+            vehicles: this.links.vehicles.urls,
+            characters: this.links.characters.urls,
+            // species: this.links.species.urls,
             ...this.film
           } = re.data);
         })

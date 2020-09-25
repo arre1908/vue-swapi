@@ -2,12 +2,9 @@
   <div>
     <h3 v-if="!film.title">{{ error || "Loading..." }}</h3>
 
-    <InfoList v-else :item="film" :keys="keys" :links="links">
+    <InfoList v-else :item="film" :attributes="attributes" :links="links">
       <template v-slot:header>
-        <div class="opening">
-          <h1>{{ film.title }}</h1>
-          <p>{{ film.opening_crawl }}</p>
-        </div>
+        <OpeningCrawl :title="film.title" :text="film.opening_crawl" />
       </template>
     </InfoList>
   </div>
@@ -16,9 +13,10 @@
 <script>
 import { apiClient } from "../../apiService";
 import InfoList from "@/components/InfoList";
+import OpeningCrawl from "@/components/OpeningCrawl";
 
 export default {
-  components: { InfoList },
+  components: { InfoList, OpeningCrawl },
   props: {
     id: { type: String, required: true },
     filmProp: { type: Object, default: () => null }
@@ -26,25 +24,24 @@ export default {
   data() {
     return {
       film: {},
-      keys: [
+      attributes: [
         { key: "episode_id", label: "Episode" },
         { key: "release_date", label: "Release Date" },
         { key: "director", label: "Director" },
         { key: "producer", label: "Producer" }
       ],
       links: {
-        starships: { label: "Starships", urls: [] },
-        planets: { label: "Planets", urls: [] },
-        vehicles: { label: "Vehicles", urls: [] },
-        characters: { label: "Characters", urls: [] }
-        // species: { label: "Species", urls: [] }
+        characters: { label: "Characters", urls: [], data: [], loading: false },
+        planets: { label: "Planets", urls: [], data: [], loading: false },
+        starships: { label: "Starships", urls: [], data: [], loading: false },
+        vehicles: { label: "Vehicles", urls: [], data: [], loading: false }
+        // species: { label: "Species", urls: [], data: [], loading: false }
       },
       error: ""
     };
   },
   created() {
     if (this.filmProp) {
-      // Get film from props
       this.film = this.filmProp;
     } else {
       this.fetchData();
@@ -55,16 +52,16 @@ export default {
       this.error = "";
       apiClient
         .get(`films/${this.id}/`)
-        .then(re => {
+        .then(response => {
           // Destructor assignment of data members from response object
           ({
-            starships: this.links.starships.urls,
-            planets: this.links.planets.urls,
-            vehicles: this.links.vehicles.urls,
             characters: this.links.characters.urls,
+            planets: this.links.planets.urls,
+            starships: this.links.starships.urls,
+            vehicles: this.links.vehicles.urls,
             // species: this.links.species.urls,
             ...this.film
-          } = re.data);
+          } = response.data);
         })
         .catch(err => {
           this.error = err;
@@ -73,15 +70,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-@use "@/css/variables";
-
-.opening {
-  background: black;
-  padding: 20px 0;
-  color: variables.$link;
-  text-align: center;
-  white-space: pre-line;
-}
-</style>

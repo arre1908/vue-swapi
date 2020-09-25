@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header />
-    <router-view />
+    <router-view class="container" />
   </div>
 </template>
 
@@ -21,5 +21,9 @@ export default {
   margin: 0 auto;
   max-width: 1200px;
   color: variables.$text-primary;
+}
+
+.container {
+  margin: 30px 0;
 }
 </style>

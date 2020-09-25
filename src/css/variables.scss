@@ -5,6 +5,11 @@ $text-primary: #dddddd;
 
 $link: #fceb00;
 
+h1 {
+  font-size: 200%;
+  text-transform: uppercase;
+}
+
 a {
   color: $link;
 }
@@ -32,4 +37,12 @@ a {
   &:disabled {
     cursor: initial;
   }
+}
+
+.text-capitalize {
+  text-transform: capitalize;
+}
+
+.text-center {
+  text-align: center;
 }

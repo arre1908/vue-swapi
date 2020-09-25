@@ -1,48 +1,50 @@
 <template>
   <div>
-    <div v-if="items.length" class="table-container">
-      <table>
-        <thead>
-          <th v-for="col of columns" :key="col.key">{{ col.label }}</th>
-        </thead>
-        <tbody>
-          <tr v-for="[index, item] of items.entries()" :key="index">
-            <td v-for="col of columns" :key="col.key">
-              <!-- Name / Title links -->
-              <router-link
-                v-if="col.key == 'name' || col.key == 'title'"
-                :to="stripBaseUrl(item.url)"
-              >
-                {{ item[col.key] }}
-              </router-link>
+    <table>
+      <thead>
+        <th v-for="col of columns" :key="col.key">{{ col.label }}</th>
+      </thead>
 
-              <span v-else>{{ item[col.key] }}</span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <tbody>
+        <tr v-for="[index, item] of items.entries()" :key="index">
+          <td v-for="col of columns" :key="col.key" class="text-capitalize">
+            <!-- Name / Title links -->
+            <router-link
+              v-if="col.key == 'name' || col.key == 'title'"
+              :to="stripBaseUrl(item.url)"
+            >
+              {{ item[col.key] }}
+            </router-link>
+
+            <span v-else>{{ item[col.key] }}</span>
+          </td>
+        </tr>
+      </tbody>
 
       <!-- Load more -->
-      <button
-        v-if="next"
-        :disabled="isLoading"
-        class="button"
-        @click="fetchData()"
-      >
-        {{ isLoading ? "Loading..." : "Load More" }}
-      </button>
-
-      <h3 v-if="error">{{ error }}</h3>
-    </div>
-
-    <h4 v-else>{{ error || "Loading..." }}</h4>
+      <tfoot v-if="next">
+        <tr>
+          <td :colspan="columns.length">
+            <LoadButton
+              :loading="isLoading"
+              :error="error"
+              text="Load More"
+              class="table-button"
+              @click="fetchData()"
+            />
+          </td>
+        </tr>
+      </tfoot>
+    </table>
   </div>
 </template>
 
 <script>
+import LoadButton from "@/components/LoadButton";
 import { apiClient, stripBaseUrl } from "../apiService";
 
 export default {
+  components: { LoadButton },
   props: {
     url: { type: String, required: true },
     columns: { type: Array, required: true }
@@ -52,7 +54,7 @@ export default {
       items: [],
       next: "",
       isLoading: true,
-      error: ""
+      error: null
     };
   },
   created() {
@@ -64,16 +66,16 @@ export default {
     stripBaseUrl: stripBaseUrl,
     fetchData() {
       this.isLoading = true;
-      this.error = "";
+      this.error = null;
       apiClient
         .get(this.next)
-        .then(re => {
+        .then(response => {
           // Append response data to list of items (table rows)
-          this.items = this.items.concat(re.data.results);
-          this.next = re.data.next;
+          this.items = this.items.concat(response.data.results);
+          this.next = response.data.next;
         })
-        .catch(err => {
-          this.error = err;
+        .catch(error => {
+          this.error = error;
         })
         .finally(() => {
           this.isLoading = false;
@@ -87,34 +89,32 @@ export default {
 <style lang="scss" scoped>
 @use "@/css/variables";
 
-.table-container {
-  margin: 30px 0;
-}
-
 table {
   width: 100%;
   border: 1px solid variables.$text-primary;
   border-spacing: 0;
+  border-radius: 5px;
+
+  th,
+  td {
+    padding: 10px;
+    border: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 1px;
+  }
+
+  th {
+    border-bottom: 1px solid variables.$text-primary;
+    text-align: left;
+  }
+
+  td {
+    border-bottom: 1px solid variables.$bg-secondary;
+  }
 }
 
-th,
-td {
-  border: none;
-  padding: 10px;
-}
-
-th {
-  border-bottom: 1px solid variables.$text-primary;
-  text-align: left;
-}
-
-td {
-  border-bottom: 1px solid variables.$bg-secondary;
-}
-
-.button {
+.table-button {
   width: 100%;
-  border-radius: 0;
-  padding: 10px;
 }
 </style>

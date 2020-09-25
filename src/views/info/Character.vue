@@ -2,13 +2,18 @@
   <div>
     <h3 v-if="!character.name">{{ error || "Loading..." }}</h3>
 
-    <InfoList v-else :item="character" :keys="keys" :links="links" />
+    <InfoList
+      v-else
+      :item="character"
+      :attributes="attributes"
+      :links="links"
+    />
   </div>
 </template>
 
 <script>
-import { apiClient } from "../../apiService";
 import InfoList from "@/components/InfoList";
+import { apiClient } from "../../apiService";
 
 export default {
   components: { InfoList },
@@ -19,7 +24,7 @@ export default {
   data() {
     return {
       character: {},
-      keys: [
+      attributes: [
         { key: "birth_year", label: "Birth Year" },
         { key: "height", label: "Height" },
         { key: "mass", label: "Mass" },
@@ -30,17 +35,16 @@ export default {
       ],
       links: {
         homeworld: { label: "Homeworld", urls: [] },
+        species: { label: "Species", urls: [] },
         films: { label: "Films", urls: [] },
         vehicles: { label: "Vehicles", urls: [] },
         starships: { label: "Starships", urls: [] }
-        // species: { label: "Species", urls: [] },
       },
       error: ""
     };
   },
   created() {
     if (this.characterProp) {
-      // Get character from props
       this.character = this.characterProp;
     } else {
       this.fetchData();
@@ -51,18 +55,19 @@ export default {
       this.error = "";
       apiClient
         .get(`people/${this.id}/`)
-        .then(re => {
+        .then(response => {
+          // Destructor assignment of data from response object
           let homeworld;
-          // Destructor assignment of data members from response object
           ({
             homeworld,
+            species: this.links.species.urls,
             films: this.links.films.urls,
             vehicles: this.links.vehicles.urls,
             starships: this.links.starships.urls,
-            // species: this.links.species.urls,
             ...this.character
-          } = re.data);
-          this.links.homeworld.urls = [homeworld];
+          } = response.data);
+
+          this.links.homeworld.urls.push(homeworld);
         })
         .catch(err => {
           this.error = err;
@@ -71,7 +76,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-@use "@/css/variables";
-</style>

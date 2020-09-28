@@ -1,9 +1,12 @@
 $bg-primary: #23252b;
 $bg-secondary: #3d4049;
+$bg-tertiary: darken($bg-secondary, 5%);
 
 $text-primary: #dddddd;
+$text-secondary: darken($text-primary, 40%);
 
 $link: #fceb00;
+$link-secondary: darken($link, 10%);
 
 h1 {
   font-size: 200%;
@@ -14,28 +17,44 @@ a {
   color: $link;
 }
 
-.button {
-  background-color: $link;
+.btn {
   padding: 8px;
   border-radius: 5px;
   border: none;
-  color: $bg-primary;
   font-weight: bold;
   cursor: pointer;
 
-  &:hover {
-    background-color: darken($link, 10%);
-  }
-
-  &:focus,
-  &:disabled {
-    background-color: $bg-secondary;
-    color: $text-primary;
-    outline: none;
-  }
-
   &:disabled {
     cursor: initial;
+  }
+
+  &.btn-primary {
+    background-color: $link;
+    color: $bg-primary;
+
+    &:hover {
+      background-color: $link-secondary;
+    }
+
+    &:active,
+    &:disabled {
+      background-color: $bg-tertiary;
+      color: $text-primary;
+    }
+  }
+
+  &.btn-secondary {
+    background-color: lighten($bg-secondary, 10%);
+    color: $text-primary;
+
+    &:hover {
+      background-color: lighten($bg-secondary, 5%);
+    }
+
+    &:active,
+    &:disabled {
+      background-color: $bg-tertiary;
+    }
   }
 }
 

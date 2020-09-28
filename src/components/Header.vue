@@ -8,7 +8,7 @@
         v-for="link of links"
         :key="link.path"
         :to="link.path"
-        class="button nav-link"
+        class="btn btn-primary nav-link"
       >
         {{ link.name }}
       </router-link>
@@ -46,14 +46,12 @@ nav {
   line-height: 3.5;
 
   .nav-link {
-    background: variables.$link;
-    color: variables.$bg-primary;
     margin: 0 10px;
     padding: 10px;
-    font-weight: bold;
     text-decoration: none;
 
-    &.router-link-exact-active {
+    &.router-link-exact-active,
+    &.router-link-exact-active:hover {
       background: variables.$bg-secondary;
       color: variables.$text-primary;
     }

@@ -2,12 +2,13 @@
   <div>
     <h3 v-if="!character.name">{{ error || "Loading..." }}</h3>
 
-    <InfoList
-      v-else
-      :item="character"
-      :attributes="attributes"
-      :links="links"
-    />
+    <InfoList v-else :item="character" :attributes="attributes" :links="links">
+      <template v-slot:height>
+        {{
+          character.height === "unknown" ? "Unknown" : character.height / 100
+        }}
+      </template>
+    </InfoList>
   </div>
 </template>
 
@@ -26,8 +27,8 @@ export default {
       character: {},
       attributes: [
         { key: "birth_year", label: "Birth Year" },
-        { key: "height", label: "Height" },
-        { key: "mass", label: "Mass" },
+        { key: "height", label: "Height (meters)" },
+        { key: "mass", label: "Mass (kg)" },
         { key: "hair_color", label: "Hair Color" },
         { key: "skin_color", label: "Skin Color" },
         { key: "eye_color", label: "Eye Color" },

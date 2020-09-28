@@ -1,5 +1,7 @@
 <template>
   <div>
+    <Searchbar :loading="isLoading" @submit="search($event)" />
+
     <table>
       <thead>
         <th v-for="col of columns" :key="col.key">{{ col.label }}</th>
@@ -8,30 +10,40 @@
       <tbody>
         <tr v-for="[index, item] of items.entries()" :key="index">
           <td v-for="col of columns" :key="col.key" class="text-capitalize">
-            <!-- Name / Title links -->
-            <router-link
-              v-if="col.key == 'name' || col.key == 'title'"
-              :to="stripBaseUrl(item.url)"
-            >
-              {{ item[col.key] }}
-            </router-link>
+            <!-- Optional cell slot -->
+            <slot :name="col.key" :item="item">
+              <!-- Name / Title links -->
+              <router-link
+                v-if="col.key === 'name' || col.key === 'title'"
+                :to="stripBaseUrl(item.url)"
+              >
+                {{ item[col.key] }}
+              </router-link>
 
-            <span v-else>{{ item[col.key] }}</span>
+              <!-- Default -->
+              <span v-else>{{ item[col.key] }}</span>
+            </slot>
           </td>
         </tr>
       </tbody>
 
-      <!-- Load more -->
-      <tfoot v-if="next">
+      <tfoot>
         <tr>
           <td :colspan="columns.length">
+            <!-- Load more -->
             <LoadButton
+              v-if="next"
               :loading="isLoading"
               :error="error"
               text="Load More"
               class="table-button"
               @click="fetchData()"
             />
+
+            <!-- No results -->
+            <div v-else-if="!items.length" class="no-results">
+              No results found
+            </div>
           </td>
         </tr>
       </tfoot>
@@ -40,11 +52,12 @@
 </template>
 
 <script>
+import Searchbar from "@/components/Searchbar";
 import LoadButton from "@/components/LoadButton";
 import { apiClient, stripBaseUrl } from "../apiService";
 
 export default {
-  components: { LoadButton },
+  components: { LoadButton, Searchbar },
   props: {
     url: { type: String, required: true },
     columns: { type: Array, required: true }
@@ -81,6 +94,11 @@ export default {
           this.isLoading = false;
           window.scrollTo(0, document.body.scrollHeight);
         });
+    },
+    search(query) {
+      this.next = `${this.url}?search=${query}`;
+      this.items = [];
+      this.fetchData();
     }
   }
 };
@@ -116,5 +134,10 @@ table {
 
 .table-button {
   width: 100%;
+}
+
+.no-results {
+  text-align: center;
+  font-style: italic;
 }
 </style>

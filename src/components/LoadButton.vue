@@ -1,5 +1,5 @@
 <template>
-  <button :disabled="loading" class="button" @click="$emit('click')">
+  <button :disabled="loading" class="btn btn-primary" @click="$emit('click')">
     {{ buttonText }}
   </button>
 </template>

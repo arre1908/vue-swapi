@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "http://swapi.dev/api";
+const baseURL = "https://swapi.dev/api";
 
 const apiClient = axios.create({
   baseURL: baseURL,
@@ -10,10 +10,10 @@ const apiClient = axios.create({
 });
 
 function stripBaseUrl(url) {
-  if (baseURL.indexOf("http") === -1) {
-    return url.replace(baseURL.replace("http", "https"), "");
-  } else {
+  if (url.slice(0, 5) === "https") {
     return url.replace(baseURL, "");
+  } else {
+    return url.replace(baseURL.replace("https", "http"), "");
   }
 }
 

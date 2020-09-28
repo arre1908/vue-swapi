@@ -3,7 +3,11 @@
     <h1>Characters</h1>
     <Table url="people/" :columns="columns">
       <template v-slot:height="slotProps">
-        {{ slotProps.item.height / 100 }}
+        {{
+          slotProps.item.height === "unknown"
+            ? "Unknown"
+            : slotProps.item.height / 100
+        }}
       </template>
     </Table>
   </div>

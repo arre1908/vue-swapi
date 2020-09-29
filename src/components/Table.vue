@@ -7,7 +7,7 @@
         <th v-for="col of columns" :key="col.key">{{ col.label }}</th>
       </thead>
 
-      <tbody>
+      <transition-group name="rows" tag="tbody">
         <tr v-for="[index, item] of items.entries()" :key="index">
           <td v-for="col of columns" :key="col.key" class="text-capitalize">
             <!-- Optional cell slot -->
@@ -25,23 +25,24 @@
             </slot>
           </td>
         </tr>
-      </tbody>
+      </transition-group>
 
       <tfoot>
         <tr>
-          <td :colspan="columns.length">
-            <!-- Load more -->
+          <!-- Load more -->
+          <td v-if="next" :colspan="columns.length">
             <LoadButton
-              v-if="next"
               :loading="isLoading"
               :error="error"
               text="Load More"
               class="table-button"
               @click="fetchData()"
             />
+          </td>
 
-            <!-- No results -->
-            <div v-else-if="!items.length" class="no-results">
+          <!-- No results -->
+          <td v-else-if="!items.length" :colspan="columns.length">
+            <div class="no-results">
               No results found
             </div>
           </td>
@@ -92,7 +93,7 @@ export default {
         })
         .finally(() => {
           this.isLoading = false;
-          window.scrollTo(0, document.body.scrollHeight);
+          // window.scrollTo(0, document.body.scrollHeight);
         });
     },
     search(query) {
@@ -139,5 +140,14 @@ table {
 .no-results {
   text-align: center;
   font-style: italic;
+}
+
+.rows-enter-active {
+  transition: all 0.3s;
+}
+
+.rows-enter {
+  opacity: 0;
+  transform: translateY(20px);
 }
 </style>

@@ -20,10 +20,9 @@ export default {
 #app {
   margin: 0 auto;
   max-width: 1200px;
-  color: variables.$text-primary;
 }
 
 .container {
-  margin: 30px 0;
+  margin: 30px 10px;
 }
 </style>

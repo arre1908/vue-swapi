@@ -1,8 +1,14 @@
 @use "./css//variables.scss";
 
+* {
+  box-sizing: border-box;
+}
+
 body {
+  margin: 0;
+  background-color: variables.$bg-primary;
+  color: variables.$text-primary;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: variables.$bg-primary;
 }

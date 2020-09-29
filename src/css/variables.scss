@@ -44,16 +44,16 @@ a {
   }
 
   &.btn-secondary {
-    background-color: lighten($bg-secondary, 10%);
+    background-color: $bg-secondary;
     color: $text-primary;
 
     &:hover {
-      background-color: lighten($bg-secondary, 5%);
+      background-color: $bg-tertiary;
     }
 
     &:active,
     &:disabled {
-      background-color: $bg-tertiary;
+      background-color: darken($bg-tertiary, 5%);
     }
   }
 }

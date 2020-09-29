@@ -7,6 +7,7 @@
     <!-- Text Attributes -->
     <div v-for="attr of attributes" :key="attr.key">
       <h3>{{ attr.label }}</h3>
+      <!-- Optional cell slot -->
       <slot :name="attr.key">
         <span class="text-capitalize">
           {{ item[attr.key] }}

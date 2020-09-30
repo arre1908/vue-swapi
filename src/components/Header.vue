@@ -3,8 +3,8 @@
     <div class="title">
       <!-- Logo -->
       <router-link to="/" tag="picture">
-        <source media="(min-width: 768px)" srcset="../assets/logo.png" />
-        <source srcset="../assets/logo-text.png" />
+        <source media="(max-width: 768px)" srcset="../assets/logo-text.png" />
+        <source srcset="../assets/logo.png" />
         <img src="../assets/logo-text.png" alt="Vue-SWAPI" />
       </router-link>
 
@@ -78,8 +78,8 @@ nav {
     padding: 10px;
     text-decoration: none;
 
-    &.router-link-exact-active,
-    &.router-link-exact-active:hover {
+    &.router-link-active,
+    &.router-link-active:hover {
       background-color: variables.$link;
       color: variables.$bg-primary;
     }
@@ -87,7 +87,7 @@ nav {
 }
 
 /* Mobile styles */
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 768px) {
   .title {
     display: flex;
     flex-direction: row;

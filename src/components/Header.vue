@@ -1,35 +1,33 @@
 <template>
-  <header>
-    <div class="title">
+  <div id="root">
+    <header :class="{ 'mb-expand': expandMenu }">
       <!-- Logo -->
-      <router-link to="/" tag="picture">
-        <source media="(max-width: 768px)" srcset="../assets/logo-text.png" />
-        <source srcset="../assets/logo.png" />
-        <img src="../assets/logo-text.png" alt="Vue-SWAPI" />
+      <router-link to="/">
+        <img id="logo" src="../assets/logo.png" alt="Vue-SWAPI" />
       </router-link>
 
       <!-- Menu Button -->
       <button :class="{ active: expandMenu }" @click="expandMenu = !expandMenu">
         <svg viewBox="0 0 100 100" width="20" height="20">
-          <rect width="100" height="10" rx="5"></rect>
-          <rect y="40" width="100" height="10" rx="5"></rect>
-          <rect y="80" width="100" height="10" rx="5"></rect>
+          <rect id="r1" width="100" height="10" rx="5"></rect>
+          <rect id="r2" y="45" width="100" height="10" rx="5"></rect>
+          <rect id="r3" y="90" width="100" height="10" rx="5"></rect>
         </svg>
       </button>
-    </div>
 
-    <!-- Navigation Links -->
-    <nav :class="{ 'mb-hidden': !expandMenu }" @click="expandMenu = false">
-      <router-link
-        v-for="link of links"
-        :key="link.path"
-        :to="link.path"
-        class="btn btn-secondary nav-link"
-      >
-        {{ link.name }}
-      </router-link>
-    </nav>
-  </header>
+      <!-- Navigation Links -->
+      <nav @click="expandMenu = false">
+        <router-link
+          v-for="link of links"
+          :key="link.path"
+          :to="link.path"
+          class="nav-link"
+        >
+          {{ link.name }}
+        </router-link>
+      </nav>
+    </header>
+  </div>
 </template>
 
 <script>
@@ -55,81 +53,99 @@ export default {
 @use "@/css/variables.scss";
 
 /* Desktop styles */
-.title {
-  text-align: center;
-  margin: 30px 0;
+#root {
+  background-color: variables.$bg-header;
+}
 
-  picture {
-    cursor: pointer;
-  }
+header {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  min-height: 50px;
+  margin: 0 auto;
+}
 
-  button {
-    display: none;
-  }
+#logo {
+  height: 20px;
+  margin: 0 20px 0 10px;
+}
+
+button {
+  display: none;
 }
 
 nav {
+  flex: 1;
   display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
+  // justify-content: flex-end;
 
   .nav-link {
-    margin: 10px;
-    padding: 10px;
+    margin: 0 10px;
     text-decoration: none;
+    color: variables.$text-primary;
+
+    &:hover {
+      color: variables.$text-secondary;
+    }
 
     &.router-link-active,
     &.router-link-active:hover {
-      background-color: variables.$link;
-      color: variables.$bg-primary;
+      color: variables.$link-secondary;
     }
   }
 }
 
 /* Mobile styles */
 @media screen and (max-width: 768px) {
-  .title {
-    display: flex;
-    flex-direction: row;
+  header {
     justify-content: space-between;
-    height: 50px;
-    margin: 0;
+    overflow: hidden;
+    max-height: 50px;
+    transition: max-height 0.5s;
 
-    picture {
-      height: 100%;
-      padding: 15px 10px;
-
-      img {
-        height: 100%;
-      }
+    &.mb-expand {
+      max-height: 1000px;
+      transition: max-height 1s;
     }
+  }
 
-    button {
-      display: initial;
-      background-color: variables.$bg-primary;
-      fill: variables.$text-secondary;
-      padding: 15px;
-      border: none;
+  button {
+    display: initial;
+    background-color: transparent;
+    fill: variables.$text-secondary;
+    padding: 15px;
+    border: none;
 
-      &.active {
-        background-color: variables.$bg-secondary;
-        fill: variables.$text-primary;
+    &.active {
+      fill: variables.$text-primary;
+
+      // Transform to 'X'
+      svg {
+        #r1 {
+          transform: rotateZ(-45deg) translateY(45px);
+          transform-origin: center;
+        }
+        #r2 {
+          transform: rotateZ(45deg);
+          transform-origin: center;
+        }
+        #r3 {
+          display: none;
+        }
       }
     }
   }
 
   nav {
-    display: flex;
+    flex: 1 100%;
     flex-direction: column;
 
     .nav-link {
       margin: 0;
-      border-radius: 0;
+      padding: 15px;
     }
-  }
-
-  .mb-hidden {
-    display: none;
   }
 }
 </style>

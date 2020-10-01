@@ -15,14 +15,9 @@ export default {
 </script>
 
 <style lang="scss">
-@use "@/css/variables.scss";
-
-#app {
-  margin: 0 auto;
-  max-width: 1200px;
-}
-
 .container {
-  margin: 30px 10px;
+  margin: 30px auto;
+  padding: 0 10px;
+  max-width: 1200px;
 }
 </style>

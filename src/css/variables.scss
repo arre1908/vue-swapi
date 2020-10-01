@@ -1,6 +1,7 @@
 $bg-primary: #23252b;
 $bg-secondary: #3d4049;
 $bg-tertiary: darken($bg-secondary, 5%);
+$bg-header: darken($bg-primary, 5%);
 
 $text-primary: #dddddd;
 $text-secondary: darken($text-primary, 40%);
@@ -15,6 +16,10 @@ h1 {
 
 a {
   color: $link;
+
+  &:hover {
+    color: $link-secondary;
+  }
 }
 
 .btn {

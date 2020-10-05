@@ -4,9 +4,7 @@
 
     <InfoList v-else :item="character" :attributes="attributes" :links="links">
       <template v-slot:height>
-        {{
-          character.height === "unknown" ? "Unknown" : character.height / 100
-        }}
+        {{ character.height | meters }}
       </template>
     </InfoList>
   </div>
@@ -15,9 +13,11 @@
 <script>
 import InfoList from "@/components/InfoList";
 import { apiClient } from "../../apiService";
+import { filters } from "../../mixins";
 
 export default {
   components: { InfoList },
+  mixins: [filters],
   props: {
     id: { type: String, required: true },
     characterProp: { type: Object, default: () => null }

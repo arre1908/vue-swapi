@@ -1,15 +1,15 @@
 <template>
   <div>
     <h1>Films</h1>
-    <Table url="films/" :columns="columns" />
+    <ResultsGrid url="films/" :columns="columns" />
   </div>
 </template>
 
 <script>
-import Table from "@/components/Table";
+import ResultsGrid from "@/components/ResultsGrid";
 
 export default {
-  components: { Table },
+  components: { ResultsGrid },
   data() {
     return {
       columns: [

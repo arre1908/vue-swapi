@@ -47,8 +47,10 @@ export default {
       this.submit();
     },
     submit() {
-      this.lastQuery = this.query;
-      this.$emit("submit", this.query);
+      if (this.lastQuery !== this.query) {
+        this.lastQuery = this.query;
+        this.$emit("submit", this.query);
+      }
     }
   }
 };

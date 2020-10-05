@@ -98,7 +98,7 @@ nav {
 }
 
 /* Mobile styles */
-@media screen and (max-width: 768px) {
+@media all and (max-width: 768px) {
   header {
     justify-content: space-between;
     overflow: hidden;

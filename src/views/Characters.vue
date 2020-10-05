@@ -1,23 +1,21 @@
 <template>
   <div>
     <h1>Characters</h1>
-    <Table url="people/" :columns="columns">
+    <ResultsGrid url="people/" :columns="columns">
       <template v-slot:height="slotProps">
-        {{
-          slotProps.item.height === "unknown"
-            ? "Unknown"
-            : slotProps.item.height / 100
-        }}
+        {{ slotProps.item.height | meters }}
       </template>
-    </Table>
+    </ResultsGrid>
   </div>
 </template>
 
 <script>
-import Table from "@/components/Table";
+import ResultsGrid from "@/components/ResultsGrid";
+import { filters } from "../mixins";
 
 export default {
-  components: { Table },
+  components: { ResultsGrid },
+  mixins: [filters],
   data() {
     return {
       columns: [

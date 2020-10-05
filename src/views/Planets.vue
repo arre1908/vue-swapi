@@ -2,15 +2,15 @@
   <div>
     <h1>Planets</h1>
 
-    <Table url="planets/" :columns="columns" />
+    <ResultsGrid url="planets/" :columns="columns" />
   </div>
 </template>
 
 <script>
-import Table from "@/components/Table";
+import ResultsGrid from "@/components/ResultsGrid";
 
 export default {
-  components: { Table },
+  components: { ResultsGrid },
   data() {
     return {
       columns: [

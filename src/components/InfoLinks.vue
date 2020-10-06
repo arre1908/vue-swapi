@@ -24,7 +24,7 @@
 
 <script>
 import LoadButton from "@/components/LoadButton";
-import { apiClient, stripBaseUrl } from "../apiService";
+import { apiClient, stripBaseUrl } from "@/apiService";
 
 export default {
   components: { LoadButton },

@@ -12,8 +12,8 @@
 
 <script>
 import InfoList from "@/components/InfoList";
-import { apiClient } from "../../apiService";
-import { filters } from "../../mixins";
+import { apiClient } from "@/apiService";
+import { filters } from "@/mixins";
 
 export default {
   components: { InfoList },

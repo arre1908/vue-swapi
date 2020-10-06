@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { apiClient } from "../../apiService";
+import { apiClient } from "@/apiService";
 import InfoList from "@/components/InfoList";
 import OpeningCrawl from "@/components/OpeningCrawl";
 

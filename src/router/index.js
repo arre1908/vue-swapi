@@ -1,13 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Films from "@/views/Films.vue";
+import CategoryView from "@/views/CategoryView.vue";
 import Film from "@/views/info/Film.vue";
-import Characters from "@/views/Characters.vue";
 import Character from "@/views/info/Character.vue";
-import Planets from "@/views/Planets.vue";
-import Species from "@/views/Species.vue";
-import Starships from "@/views/Starships.vue";
-import Vehicles from "@/views/Vehicles.vue";
 import About from "@/views/About.vue";
 import Error404 from "@/views/Error404.vue";
 
@@ -21,7 +16,11 @@ const routes = [
   {
     path: "/films",
     name: "Films",
-    component: Films
+    component: CategoryView,
+    props: {
+      title: "Films",
+      path: "films/"
+    }
   },
   {
     path: "/films/:id",
@@ -32,7 +31,11 @@ const routes = [
   {
     path: "/people",
     name: "Characters",
-    component: Characters
+    component: CategoryView,
+    props: {
+      title: "Characters",
+      path: "people/"
+    }
   },
   {
     path: "/people/:id",
@@ -43,22 +46,38 @@ const routes = [
   {
     path: "/planets",
     name: "Planets",
-    component: Planets
+    component: CategoryView,
+    props: {
+      title: "Planets",
+      path: "planets/"
+    }
   },
   {
     path: "/species",
     name: "Species",
-    component: Species
+    component: CategoryView,
+    props: {
+      title: "Species",
+      path: "species/"
+    }
   },
   {
     path: "/starships",
     name: "Starships",
-    component: Starships
+    component: CategoryView,
+    props: {
+      title: "Starships",
+      path: "starships/"
+    }
   },
   {
     path: "/vehicles",
     name: "Vehicles",
-    component: Vehicles
+    component: CategoryView,
+    props: {
+      title: "Vehicles",
+      path: "vehicles/"
+    }
   },
   {
     path: "/about",

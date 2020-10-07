@@ -1,72 +1,52 @@
 <template>
   <div>
-    <h3 v-if="!film.title">{{ error || "Loading..." }}</h3>
+    <div v-if="item.title">
+      <h1>{{ item.title }}</h1>
 
-    <InfoList v-else :item="film" :attributes="attributes" :links="links">
-      <template v-slot:header>
-        <OpeningCrawl :title="film.title" :text="film.opening_crawl" />
-      </template>
-    </InfoList>
+      <!-- Text Attributes -->
+      <InfoCard :item="item" :attributes="attributes">
+        <template v-slot:header>
+          <OpeningCrawl :title="item.title" :text="item.opening_crawl" />
+        </template>
+      </InfoCard>
+
+      <!-- Links -->
+      <InfoLinks
+        v-for="{ key, label } of links"
+        :key="key"
+        :links="item[key]"
+        :label="label"
+      />
+    </div>
+
+    <h3 v-else>{{ error || "Loading..." }}</h3>
   </div>
 </template>
 
 <script>
-import { apiClient } from "@/apiService";
-import InfoList from "@/components/InfoList";
-import OpeningCrawl from "@/components/OpeningCrawl";
+import InfoCard from "@/components/InfoCard";
+import InfoLinks from "@/components/InfoLinks";
+import { infoMixins } from "@/mixins";
 
 export default {
-  components: { InfoList, OpeningCrawl },
-  props: {
-    id: { type: String, required: true },
-    filmProp: { type: Object, default: () => null }
-  },
+  components: { InfoCard, InfoLinks },
+  mixins: [infoMixins],
   data() {
     return {
-      film: {},
       attributes: [
         { key: "episode_id", label: "Episode" },
         { key: "release_date", label: "Release Date" },
         { key: "director", label: "Director" },
         { key: "producer", label: "Producer" }
       ],
-      links: {
-        characters: { label: "Characters", urls: [], data: [], loading: false },
-        planets: { label: "Planets", urls: [], data: [], loading: false },
-        starships: { label: "Starships", urls: [], data: [], loading: false },
-        vehicles: { label: "Vehicles", urls: [], data: [], loading: false }
-        // species: { label: "Species", urls: [], data: [], loading: false }
-      },
-      error: ""
+      links: [
+        { key: "characters", label: "Characters" },
+        { key: "planets", label: "Planets" },
+        { key: "starships", label: "Starships" },
+        { key: "vehicles", label: "Vehicles" },
+        { key: "species", label: "Species" }
+      ]
     };
-  },
-  created() {
-    if (this.filmProp) {
-      this.film = this.filmProp;
-    } else {
-      this.fetchData();
-    }
-  },
-  methods: {
-    fetchData() {
-      this.error = "";
-      apiClient
-        .get(`films/${this.id}/`)
-        .then(response => {
-          // Destructor assignment of data members from response object
-          ({
-            characters: this.links.characters.urls,
-            planets: this.links.planets.urls,
-            starships: this.links.starships.urls,
-            vehicles: this.links.vehicles.urls,
-            // species: this.links.species.urls,
-            ...this.film
-          } = response.data);
-        })
-        .catch(err => {
-          this.error = err;
-        });
-    }
   }
 };
 </script>

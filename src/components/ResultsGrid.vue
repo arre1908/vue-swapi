@@ -1,36 +1,30 @@
 <template>
   <div>
     <!-- Results -->
-    <transition-group name="results" tag="div" class="results-grid">
-      <router-link
+    <transition-group name="results" tag="div" :class="gridClasses">
+      <Result
         v-for="[index, item] of items.entries()"
         :key="index"
-        class="link-wrapper"
-        :to="stripBaseUrl(item.url)"
-      >
-        <div class="card">
-          <img
-            src="https://via.placeholder.com/400x400.jpg/3d4049/dddddd/?text=NO+IMAGE+FOUND"
-          />
-
-          <div class="card-text text-capitalize">
-            {{ item.name || item.title }}
-          </div>
-        </div>
-      </router-link>
+        :data="item"
+        :mini="mini"
+      />
     </transition-group>
   </div>
 </template>
 
 <script>
-import { stripBaseUrl } from "@/apiService";
+import Result from "@/components/Result";
 
 export default {
+  components: { Result },
   props: {
-    items: { type: Array, required: true }
+    items: { type: Array, required: true },
+    mini: { type: Boolean, default: false }
   },
-  methods: {
-    stripBaseUrl: stripBaseUrl
+  computed: {
+    gridClasses() {
+      return ["results-grid", this.mini ? "mini" : "default"];
+    }
   }
 };
 </script>
@@ -40,34 +34,14 @@ export default {
 
 .results-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
   gap: 1rem;
 
-  .link-wrapper {
-    text-decoration: none;
+  &.default {
+    grid-template-columns: repeat(5, 1fr);
+  }
 
-    .card {
-      height: 100%;
-      color: variables.$text-primary;
-      border: 1px solid variables.$bg-secondary;
-      border-radius: 10px;
-      overflow: hidden;
-      transition: all 0.2s;
-
-      img {
-        width: 100%;
-      }
-
-      .card-text {
-        padding: 10px 10px;
-        text-align: center;
-      }
-
-      &:hover {
-        color: variables.$link;
-        transform: scale(1.05);
-      }
-    }
+  &.mini {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -80,10 +54,25 @@ export default {
   transform: translateY(-1rem);
 }
 
+/* Tablet styles */
+@media all and (max-width: 1024px) {
+  .results-grid.default {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .results-grid.mini {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 /* Mobile styles */
 @media all and (max-width: 576px) {
-  .results-grid {
+  .results-grid.default {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .results-grid.mini {
+    grid-template-columns: repeat(1, 1fr);
   }
 }
 </style>

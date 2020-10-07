@@ -1,35 +1,29 @@
 <template>
-  <div v-if="links.urls.length">
-    <h3>{{ links.label }}</h3>
+  <div v-if="links.length" class="info-links">
+    <h2>{{ label }}</h2>
 
-    <div class="details">
-      <!-- Resolved Links -->
-      <ul v-if="resolvedData.length">
-        <li v-for="[index, data] of resolvedData.entries()" :key="index">
-          <router-link :to="stripBaseUrl(data.url)" class="text-capitalize">
-            {{ data.name || data.title }}
-          </router-link>
-        </li>
-      </ul>
+    <!-- Links -->
+    <ResultsGrid :items="resolvedData" :mini="true" />
 
-      <LoadButton
-        v-else
-        :loading="isLoading"
-        :error="error"
-        @click="resolveLinks()"
-      />
-    </div>
+    <LoadButton
+      v-if="!resolvedData.length"
+      :loading="isLoading"
+      :error="error"
+      @click="resolveLinks()"
+    />
   </div>
 </template>
 
 <script>
 import LoadButton from "@/components/LoadButton";
+import ResultsGrid from "@/components/ResultsGrid";
 import { apiClient, stripBaseUrl } from "@/apiService";
 
 export default {
-  components: { LoadButton },
+  components: { LoadButton, ResultsGrid },
   props: {
-    links: { type: Object, required: true }
+    links: { type: Array, required: true },
+    label: { type: String, required: true }
   },
   data() {
     return {
@@ -38,11 +32,14 @@ export default {
       error: null
     };
   },
+  created() {
+    this.resolveLinks();
+  },
   methods: {
     stripBaseUrl: stripBaseUrl,
     resolveLinks() {
       // Load data from list of API links
-      let promises = this.links.urls.map(url => apiClient.get(url));
+      let promises = this.links.map(url => apiClient.get(url));
       this.isLoading = true;
       this.error = null;
 
@@ -61,15 +58,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@use "@/css/variables";
-
-ul {
-  padding: 0;
-  list-style-type: none;
-
-  li {
-    margin: 10px 0;
-  }
+<style lang="scss">
+.info-links {
+  margin-top: 50px;
 }
 </style>

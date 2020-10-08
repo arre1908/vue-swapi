@@ -20,74 +20,47 @@ const router = new VueRouter({
     {
       path: "/films",
       name: "Films",
-      component: CategoryView,
-      props: {
-        title: "Films",
-        path: "films/"
-      }
+      component: CategoryView
     },
     {
       path: "/films/:id",
       name: "Film",
-      component: Film,
-      props: true
+      component: Film
     },
     {
       path: "/people",
       name: "Characters",
-      component: CategoryView,
-      props: {
-        title: "Characters",
-        path: "people/"
-      }
+      component: CategoryView
     },
     {
       path: "/people/:id",
       name: "Character",
-      component: Character,
-      props: true
+      component: Character
     },
     {
       path: "/planets",
       name: "Planets",
-      component: CategoryView,
-      props: {
-        title: "Planets",
-        path: "planets/"
-      }
+      component: CategoryView
     },
     {
       path: "/planets/:id",
       name: "Planet",
-      component: Planet,
-      props: true
+      component: Planet
     },
     {
       path: "/species",
       name: "Species",
-      component: CategoryView,
-      props: {
-        title: "Species",
-        path: "species/"
-      }
+      component: CategoryView
     },
     {
       path: "/starships",
       name: "Starships",
-      component: CategoryView,
-      props: {
-        title: "Starships",
-        path: "starships/"
-      }
+      component: CategoryView
     },
     {
       path: "/vehicles",
       name: "Vehicles",
-      component: CategoryView,
-      props: {
-        title: "Vehicles",
-        path: "vehicles/"
-      }
+      component: CategoryView
     },
     {
       path: "/about",

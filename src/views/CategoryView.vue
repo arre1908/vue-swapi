@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>{{ title }}</h1>
+    <h1>{{ $route.name }}</h1>
 
     <Searchbar :loading="isLoading" @submit="search($event)" />
 
@@ -31,22 +31,18 @@ import LoadButton from "@/components/LoadButton";
 import { apiClient } from "@/apiService";
 
 export default {
+  name: "CategoryView",
   components: { Searchbar, ResultsGrid, LoadButton },
-  props: {
-    path: { type: String, required: true },
-    title: { type: String, required: true }
-  },
   data() {
     return {
-      next: "",
+      path: this.$route.path.split("/")[1],
+      next: this.$route.path.split("/")[1],
       items: [],
       isLoading: true,
       error: null
     };
   },
   created() {
-    // Initialize 'next' to base URL path
-    this.next = this.path;
     this.fetchData();
   },
   methods: {

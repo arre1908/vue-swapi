@@ -1,14 +1,17 @@
 <template>
   <div>
     <div v-if="item.name">
-      <h1>{{ item.name }}</h1>
-
       <!-- Text Attributes -->
-      <InfoCard :item="item" :attributes="attributes">
+      <Info :item="item" :attributes="attributes" :links="links">
         <template v-slot:height>
-          {{ item.height | meters }}
+          {{ item.height | cm }}
         </template>
 
+        <template v-slot:mass>
+          {{ item.mass | kg }}
+        </template>
+
+        <!-- Species Link -->
         <template v-slot:species>
           <router-link v-if="species.url" :to="stripBaseUrl(species.url)">
             {{ species.label }}
@@ -17,6 +20,7 @@
           <span v-else>Loading...</span>
         </template>
 
+        <!-- Homeworld Link -->
         <template v-slot:homeworld>
           <router-link v-if="homeworld.url" :to="stripBaseUrl(homeworld.url)">
             {{ homeworld.label }}
@@ -24,15 +28,7 @@
 
           <span v-else>Loading...</span>
         </template>
-      </InfoCard>
-
-      <!-- Links -->
-      <InfoLinks
-        v-for="{ key, label } of links"
-        :key="key"
-        :links="item[key]"
-        :label="label"
-      />
+      </Info>
     </div>
 
     <h3 v-else>{{ error || "Loading..." }}</h3>
@@ -40,13 +36,12 @@
 </template>
 
 <script>
-import InfoCard from "@/components/InfoCard";
-import InfoLinks from "@/components/InfoLinks";
+import Info from "@/components/Info";
 import { apiClient } from "@/apiService";
 import { infoMixins, filters } from "@/mixins";
 
 export default {
-  components: { InfoCard, InfoLinks },
+  components: { Info },
   mixins: [infoMixins, filters],
   data() {
     return {
@@ -56,8 +51,8 @@ export default {
         { key: "species", label: "Species" },
         { key: "homeworld", label: "Homeworld" },
         { key: "birth_year", label: "Birth Year" },
-        { key: "height", label: "Height (meters)" },
-        { key: "mass", label: "Mass (kg)" },
+        { key: "height", label: "Height" },
+        { key: "mass", label: "Mass" },
         { key: "hair_color", label: "Hair Color" },
         { key: "skin_color", label: "Skin Color" },
         { key: "eye_color", label: "Eye Color" },
@@ -75,7 +70,7 @@ export default {
     fetchData() {
       this.error = "";
       return apiClient
-        .get(this.$route.fullPath)
+        .get(this.$route.path)
         .then(response => {
           this.item = response.data;
 

@@ -90,8 +90,8 @@ nav {
       color: variables.$text-secondary;
     }
 
-    &.router-link-active,
-    &.router-link-active:hover {
+    &.router-link-exact-active,
+    &.router-link-exact-active:hover {
       color: variables.$link-secondary;
     }
   }

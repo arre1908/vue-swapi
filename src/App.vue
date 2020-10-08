@@ -1,16 +1,16 @@
 <template>
   <div id="app">
     <Header />
-    <router-view :key="$route.fullPath" class="container" />
+    <keep-alive :include="['CategoryView']">
+      <router-view :key="$route.fullPath" class="container" />
+    </keep-alive>
   </div>
 </template>
 
 <script>
 import Header from "@/components/Header";
 export default {
-  components: {
-    Header
-  }
+  components: { Header }
 };
 </script>
 

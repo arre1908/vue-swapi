@@ -10,8 +10,9 @@ $link: #fceb00;
 $link-secondary: darken($link, 10%);
 
 h1 {
-  font-size: 200%;
+  font-size: 175%;
   text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 a {

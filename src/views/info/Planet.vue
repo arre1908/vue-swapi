@@ -1,18 +1,28 @@
 <template>
   <div>
     <div v-if="item.name">
-      <h1>{{ item.name }}</h1>
-
       <!-- Text Attributes -->
-      <InfoCard :item="item" :attributes="attributes" />
+      <Info :item="item" :attributes="attributes" :links="links">
+        <template v-slot:diameter>
+          {{ item.diameter | km }}
+        </template>
 
-      <!-- Links -->
-      <InfoLinks
-        v-for="{ key, label } of links"
-        :key="key"
-        :links="item[key]"
-        :label="label"
-      />
+        <template v-slot:surface_water>
+          {{ item.surface_water | percent }}
+        </template>
+
+        <template v-slot:rotation_period>
+          {{ item.rotation_period | hours }}
+        </template>
+
+        <template v-slot:orbital_period>
+          {{ item.orbital_period | days }}
+        </template>
+
+        <template v-slot:population>
+          {{ item.population | number }}
+        </template>
+      </Info>
     </div>
 
     <h3 v-else>{{ error || "Loading..." }}</h3>
@@ -20,26 +30,23 @@
 </template>
 
 <script>
-import InfoCard from "@/components/InfoCard";
-import InfoLinks from "@/components/InfoLinks";
+import Info from "@/components/Info";
 import { apiClient } from "@/apiService";
-import { infoMixins } from "@/mixins";
+import { infoMixins, filters } from "@/mixins";
 
 export default {
-  components: { InfoCard, InfoLinks },
-  mixins: [infoMixins],
+  components: { Info },
+  mixins: [infoMixins, filters],
   data() {
     return {
-      species: {},
-      homeworld: {},
       attributes: [
         { key: "climate", label: "Climate" },
         { key: "terrain", label: "Terrain" },
-        { key: "surface_water", label: "Surface Water (%)" },
+        { key: "surface_water", label: "Surface Water" },
         { key: "gravity", label: "Gravity" },
-        { key: "diameter", label: "Diameter (km)" },
-        { key: "rotation_period", label: "Rotation Period (hours)" },
-        { key: "orbital_period", label: "Orbital Period (days)" },
+        { key: "diameter", label: "Diameter" },
+        { key: "rotation_period", label: "Rotation Period" },
+        { key: "orbital_period", label: "Orbital Period" },
         { key: "population", label: "Population" }
       ],
       links: [
@@ -53,14 +60,12 @@ export default {
     fetchData() {
       this.error = "";
       return apiClient
-        .get(this.$route.fullPath)
+        .get(this.$route.path)
         .then(response => {
           // Rename 'residents' attribute as 'people'
           let people, rest;
           ({ residents: people, ...rest } = response.data);
           this.item = { people, ...rest };
-
-          this.$emit("breadcrumb", this.item);
         })
         .catch(err => {
           this.error = err;
@@ -69,9 +74,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-a {
-  text-decoration: none;
-}
-</style>

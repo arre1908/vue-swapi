@@ -2,24 +2,44 @@ import { apiClient, stripBaseUrl } from "@/apiService";
 
 const filters = {
   filters: {
-    meters(value) {
-      if (!value) return "";
-      value = value.toString();
-
-      if (isNaN(value)) {
-        return value;
-      } else {
-        return value / 100;
-      }
+    cm(value) {
+      if (isNaN(value)) return value;
+      return `${value}cm`;
+    },
+    km(value) {
+      if (isNaN(value)) return value;
+      return `${parseInt(value).toLocaleString("en-US")}km`;
+    },
+    kg(value) {
+      if (isNaN(value.replace(/,/g, ""))) return value;
+      return `${value}kg`;
+    },
+    percent(value) {
+      if (isNaN(value)) return value;
+      return `${value}%`;
+    },
+    hours(value) {
+      if (isNaN(value)) return value;
+      return `${value} hours`;
+    },
+    days(value) {
+      if (isNaN(value)) return value;
+      return `${value} days`;
+    },
+    number(value) {
+      if (isNaN(value)) return value;
+      return parseInt(value).toLocaleString("en-US");
+    },
+    date(value) {
+      let [y, m, d] = value.split("-");
+      return `${m}/${d}/${y}`;
     }
   }
 };
 
 const infoMixins = {
   props: {
-    itemProp: { type: Object, default: () => null },
-    attributesProp: { type: Array, default: () => null },
-    linksProp: { type: Array, default: () => null }
+    itemProp: { type: Object, default: () => null }
   },
   data() {
     return {
@@ -30,13 +50,8 @@ const infoMixins = {
     };
   },
   created() {
-    if (this.attributesProp) this.attributes = this.attributesProp;
-    if (this.linksProp) this.links = this.linksProp;
-
     if (this.itemProp) this.item = this.itemProp;
-    else {
-      this.fetchData();
-    }
+    else this.fetchData();
   },
   methods: {
     stripBaseUrl,

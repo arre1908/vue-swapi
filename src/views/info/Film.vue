@@ -1,22 +1,16 @@
 <template>
   <div>
     <div v-if="item.title">
-      <h1>{{ item.title }}</h1>
-
       <!-- Text Attributes -->
-      <InfoCard :item="item" :attributes="attributes">
+      <Info :item="item" :attributes="attributes" :links="links">
         <template v-slot:header>
           <OpeningCrawl :title="item.title" :text="item.opening_crawl" />
         </template>
-      </InfoCard>
 
-      <!-- Links -->
-      <InfoLinks
-        v-for="{ key, label } of links"
-        :key="key"
-        :links="item[key]"
-        :label="label"
-      />
+        <template v-slot:release_date>
+          {{ item.release_date | date }}
+        </template>
+      </Info>
     </div>
 
     <h3 v-else>{{ error || "Loading..." }}</h3>
@@ -24,13 +18,12 @@
 </template>
 
 <script>
-import InfoCard from "@/components/InfoCard";
-import InfoLinks from "@/components/InfoLinks";
-import { infoMixins } from "@/mixins";
+import Info from "@/components/Info";
+import { filters, infoMixins } from "@/mixins";
 
 export default {
-  components: { InfoCard, InfoLinks },
-  mixins: [infoMixins],
+  components: { Info },
+  mixins: [infoMixins, filters],
   data() {
     return {
       attributes: [

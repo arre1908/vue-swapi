@@ -1,4 +1,4 @@
-import { apiClient, stripBaseUrl } from "@/apiService";
+import { apiClient } from "@/apiService";
 
 const filters = {
   filters: {
@@ -30,6 +30,10 @@ const filters = {
       if (isNaN(value)) return value;
       return parseInt(value).toLocaleString("en-US");
     },
+    roman(value) {
+      const roman = { 1: "I", 2: "II", 3: "III", 4: "IV", 5: "V", 6: "VI" };
+      return roman[value];
+    },
     date(value) {
       let [y, m, d] = value.split("-");
       return `${m}/${d}/${y}`;
@@ -50,29 +54,23 @@ const infoMixins = {
     };
   },
   created() {
-    if (this.itemProp) this.item = this.itemProp;
+    if (this.itemProp) this.handleData(this.itemProp);
     else this.fetchData();
   },
   methods: {
-    stripBaseUrl,
     fetchData() {
       this.error = "";
       return apiClient
         .get(this.$route.path)
         .then(response => {
-          this.item = response.data;
+          this.handleData(response.data);
         })
         .catch(err => {
           this.error = err;
         });
     },
-    resolveLink(url, key) {
-      apiClient.get(url).then(response => {
-        this[key] = {
-          url: stripBaseUrl(response.data.url),
-          label: response.data.name
-        };
-      });
+    handleData(data) {
+      this.item = data;
     }
   }
 };

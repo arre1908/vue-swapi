@@ -1,17 +1,21 @@
 <template>
   <div>
-    <div v-if="item.title">
-      <!-- Text Attributes -->
-      <Info :item="item" :attributes="attributes" :links="links">
-        <template v-slot:header>
-          <OpeningCrawl :title="item.title" :text="item.opening_crawl" />
-        </template>
+    <!-- Text Attributes -->
+    <Info
+      v-if="item.title"
+      :item="item"
+      :attributes="attributes"
+      :links="links"
+    >
+      <template v-slot:header>
+        Episode {{ item.episode_id | roman }}: {{ item.title }}
+        <!-- <OpeningCrawl :title="item.title" :text="item.opening_crawl" /> -->
+      </template>
 
-        <template v-slot:release_date>
-          {{ item.release_date | date }}
-        </template>
-      </Info>
-    </div>
+      <template v-slot:release_date>
+        {{ item.release_date | date }}
+      </template>
+    </Info>
 
     <h3 v-else>{{ error || "Loading..." }}</h3>
   </div>
@@ -27,7 +31,6 @@ export default {
   data() {
     return {
       attributes: [
-        { key: "episode_id", label: "Episode" },
         { key: "release_date", label: "Release Date" },
         { key: "director", label: "Director" },
         { key: "producer", label: "Producer" }

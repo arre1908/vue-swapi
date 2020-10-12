@@ -1,6 +1,10 @@
 <template>
   <div id="info">
-    <h1>{{ item.name || item.title }}</h1>
+    <h1>
+      <slot name="header">
+        {{ item.name || item.title }}
+      </slot>
+    </h1>
 
     <div class="card">
       <img

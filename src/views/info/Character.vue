@@ -1,35 +1,33 @@
 <template>
   <div>
-    <div v-if="item.name">
-      <!-- Text Attributes -->
-      <Info :item="item" :attributes="attributes" :links="links">
-        <template v-slot:height>
-          {{ item.height | cm }}
-        </template>
+    <!-- Text Attributes -->
+    <Info v-if="item.name" :item="item" :attributes="attributes" :links="links">
+      <template v-slot:height>
+        {{ item.height | cm }}
+      </template>
 
-        <template v-slot:mass>
-          {{ item.mass | kg }}
-        </template>
+      <template v-slot:mass>
+        {{ item.mass | kg }}
+      </template>
 
-        <!-- Species Link -->
-        <template v-slot:species>
-          <router-link v-if="species.url" :to="stripBaseUrl(species.url)">
-            {{ species.label }}
-          </router-link>
+      <!-- Species Link -->
+      <template v-slot:species>
+        <router-link v-if="species.url" :to="stripBaseUrl(species.url)">
+          {{ species.label }}
+        </router-link>
 
-          <span v-else>Loading...</span>
-        </template>
+        <span v-else>Loading...</span>
+      </template>
 
-        <!-- Homeworld Link -->
-        <template v-slot:homeworld>
-          <router-link v-if="homeworld.url" :to="stripBaseUrl(homeworld.url)">
-            {{ homeworld.label }}
-          </router-link>
+      <!-- Homeworld Link -->
+      <template v-slot:homeworld>
+        <router-link v-if="homeworld.url" :to="stripBaseUrl(homeworld.url)">
+          {{ homeworld.label }}
+        </router-link>
 
-          <span v-else>Loading...</span>
-        </template>
-      </Info>
-    </div>
+        <span v-else>Loading...</span>
+      </template>
+    </Info>
 
     <h3 v-else>{{ error || "Loading..." }}</h3>
   </div>
@@ -37,7 +35,7 @@
 
 <script>
 import Info from "@/components/Info";
-import { apiClient } from "@/apiService";
+import { apiClient, stripBaseUrl } from "@/apiService";
 import { infoMixins, filters } from "@/mixins";
 
 export default {
@@ -66,26 +64,27 @@ export default {
     };
   },
   methods: {
+    stripBaseUrl,
     // Overrides mixin method
-    fetchData() {
-      this.error = "";
-      return apiClient
-        .get(this.$route.path)
-        .then(response => {
-          this.item = response.data;
+    handleData(data) {
+      this.item = data;
 
-          // Resolve homeworld + species links
-          this.resolveLink(this.item.homeworld, "homeworld");
+      // Resolve homeworld + species links
+      this.resolveLink(this.item.homeworld, "homeworld");
 
-          if (this.item.species.length) {
-            this.resolveLink(this.item.species[0], "species");
-          } else {
-            this.species = { url: "/species/1/", label: "Human" };
-          }
-        })
-        .catch(err => {
-          this.error = err;
-        });
+      if (this.item.species.length) {
+        this.resolveLink(this.item.species[0], "species");
+      } else {
+        this.species = { url: "/species/1/", label: "Human" };
+      }
+    },
+    resolveLink(url, key) {
+      apiClient.get(url).then(response => {
+        this[key] = {
+          url: stripBaseUrl(response.data.url),
+          label: response.data.name
+        };
+      });
     }
   }
 };

@@ -26,6 +26,10 @@ const filters = {
       if (isNaN(value)) return value;
       return `${value} days`;
     },
+    years(value) {
+      if (isNaN(value)) return value;
+      return `${parseInt(value).toLocaleString("en-US")} years`;
+    },
     number(value) {
       if (isNaN(value)) return value;
       return parseInt(value).toLocaleString("en-US");

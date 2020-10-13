@@ -13,11 +13,22 @@
 
       <!-- Text Attributes -->
       <div class="content">
-        <div v-for="{ key, label } of attributes" :key="key" class="attributes">
+        <div
+          v-for="{ key, label, link } of attributes"
+          :key="key"
+          class="attributes"
+        >
           <div class="label">{{ label }}:</div>
-          <!-- Optional cell slot -->
+
           <div class="text-capitalize">
-            <slot :name="key">{{ item[key] }}</slot>
+            <!-- Optional cell slot -->
+            <slot :name="key">
+              <!-- Link -->
+              <ResolveLink v-if="link" :data="item[key]" />
+
+              <!-- Text -->
+              <span v-else>{{ item[key] }}</span>
+            </slot>
           </div>
         </div>
       </div>
@@ -34,10 +45,11 @@
 </template>
 
 <script>
+import ResolveLink from "@/components/ResolveLink";
 import InfoLinks from "@/components/InfoLinks";
 
 export default {
-  components: { InfoLinks },
+  components: { ResolveLink, InfoLinks },
   props: {
     item: { type: Object, required: true },
     attributes: { type: Array, required: true },

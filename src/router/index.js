@@ -4,6 +4,7 @@ import CategoryView from "@/views/CategoryView.vue";
 import Film from "@/views/info/Film.vue";
 import Character from "@/views/info/Character.vue";
 import Planet from "@/views/info/Planet.vue";
+import Species from "@/views/info/Species.vue";
 import About from "@/views/About.vue";
 import Error404 from "@/views/Error404.vue";
 
@@ -24,7 +25,7 @@ const router = new VueRouter({
     },
     {
       path: "/films/:id",
-      name: "Film",
+      name: "FilmInfo",
       component: Film
     },
     {
@@ -34,7 +35,7 @@ const router = new VueRouter({
     },
     {
       path: "/people/:id",
-      name: "Character",
+      name: "CharacterInfo",
       component: Character
     },
     {
@@ -44,13 +45,18 @@ const router = new VueRouter({
     },
     {
       path: "/planets/:id",
-      name: "Planet",
+      name: "PlanetInfo",
       component: Planet
     },
     {
       path: "/species",
       name: "Species",
       component: CategoryView
+    },
+    {
+      path: "/species/:id",
+      name: "SpeciesInfo",
+      component: Species
     },
     {
       path: "/starships",

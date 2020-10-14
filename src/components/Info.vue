@@ -20,14 +20,14 @@
         >
           <div class="label">{{ label }}:</div>
 
-          <div class="text-capitalize">
-            <!-- Optional cell slot -->
+          <!-- Optional cell slot -->
+          <div>
             <slot :name="key">
               <!-- Link -->
               <ResolveLink v-if="link" :data="item[key]" />
 
               <!-- Text -->
-              <span v-else>{{ item[key] }}</span>
+              <span v-else class="text-capitalize">{{ item[key] }}</span>
             </slot>
           </div>
         </div>

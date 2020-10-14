@@ -5,6 +5,8 @@ import Film from "@/views/info/Film.vue";
 import Character from "@/views/info/Character.vue";
 import Planet from "@/views/info/Planet.vue";
 import Species from "@/views/info/Species.vue";
+import Starship from "@/views/info/Starship.vue";
+import Vehicle from "@/views/info/Vehicle.vue";
 import About from "@/views/About.vue";
 import Error404 from "@/views/Error404.vue";
 
@@ -64,9 +66,19 @@ const router = new VueRouter({
       component: CategoryView
     },
     {
+      path: "/starships/:id",
+      name: "StarshipInfo",
+      component: Starship
+    },
+    {
       path: "/vehicles",
       name: "Vehicles",
       component: CategoryView
+    },
+    {
+      path: "/vehicles/:id",
+      name: "VehicleInfo",
+      component: Vehicle
     },
     {
       path: "/about",

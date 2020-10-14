@@ -1,5 +1,5 @@
 <template>
-  <span>
+  <span class="text-capitalize">
     <router-link v-if="url" :to="stripBaseUrl(url)">
       {{ label }}
     </router-link>

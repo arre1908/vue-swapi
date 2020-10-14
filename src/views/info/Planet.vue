@@ -3,23 +3,23 @@
     <!-- Text Attributes -->
     <Info v-if="item.name" :item="item" :attributes="attributes" :links="links">
       <template v-slot:diameter>
-        {{ item.diameter | km }}
+        {{ format(item.diameter, "km") }}
       </template>
 
       <template v-slot:surface_water>
-        {{ item.surface_water | percent }}
+        {{ format(item.surface_water, "%", "") }}
       </template>
 
       <template v-slot:rotation_period>
-        {{ item.rotation_period | hours }}
+        {{ format(item.rotation_period, "Hours") }}
       </template>
 
       <template v-slot:orbital_period>
-        {{ item.orbital_period | days }}
+        {{ format(item.orbital_period, "Days") }}
       </template>
 
       <template v-slot:population>
-        {{ item.population | number }}
+        {{ format(item.population) }}
       </template>
     </Info>
 
@@ -29,11 +29,11 @@
 
 <script>
 import Info from "@/components/Info";
-import { infoMixins, filters } from "@/mixins";
+import { infoMixins } from "@/mixins";
 
 export default {
   components: { Info },
-  mixins: [infoMixins, filters],
+  mixins: [infoMixins],
   data() {
     return {
       attributes: [

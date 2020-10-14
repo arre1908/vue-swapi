@@ -3,11 +3,11 @@
     <!-- Text Attributes -->
     <Info v-if="item.name" :item="item" :attributes="attributes" :links="links">
       <template v-slot:height>
-        {{ item.height | cm }}
+        {{ format(item.height, "cm") }}
       </template>
 
       <template v-slot:mass>
-        {{ item.mass | kg }}
+        {{ format(item.mass, "kg") }}
       </template>
     </Info>
 
@@ -17,11 +17,11 @@
 
 <script>
 import Info from "@/components/Info";
-import { infoMixins, filters } from "@/mixins";
+import { infoMixins } from "@/mixins";
 
 export default {
   components: { Info },
-  mixins: [infoMixins, filters],
+  mixins: [infoMixins],
   data() {
     return {
       attributes: [

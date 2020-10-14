@@ -9,8 +9,8 @@
     >
       <template v-slot:header>
         Episode {{ item.episode_id | roman }}: {{ item.title }}
-        <!-- <OpeningCrawl :title="item.title" :text="item.opening_crawl" /> -->
       </template>
+      <!-- <OpeningCrawl :title="item.title" :text="item.opening_crawl" /> -->
 
       <template v-slot:release_date>
         {{ item.release_date | date }}
@@ -23,11 +23,21 @@
 
 <script>
 import Info from "@/components/Info";
-import { filters, infoMixins } from "@/mixins";
+import { infoMixins } from "@/mixins";
 
 export default {
   components: { Info },
-  mixins: [infoMixins, filters],
+  filters: {
+    roman(value) {
+      const roman = { 1: "I", 2: "II", 3: "III", 4: "IV", 5: "V", 6: "VI" };
+      return roman[value];
+    },
+    date(value) {
+      let [y, m, d] = value.split("-");
+      return `${m}/${d}/${y}`;
+    }
+  },
+  mixins: [infoMixins],
   data() {
     return {
       attributes: [

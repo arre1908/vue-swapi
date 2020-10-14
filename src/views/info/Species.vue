@@ -3,11 +3,11 @@
     <!-- Text Attributes -->
     <Info v-if="item.name" :item="item" :attributes="attributes" :links="links">
       <template v-slot:average_height>
-        {{ item.average_height | cm }}
+        {{ format(item.average_height, "cm") }}
       </template>
 
       <template v-slot:average_lifespan>
-        {{ item.average_lifespan | years }}
+        {{ format(item.average_lifespan, "Years") }}
       </template>
     </Info>
 
@@ -17,11 +17,11 @@
 
 <script>
 import Info from "@/components/Info";
-import { filters, infoMixins } from "@/mixins";
+import { infoMixins } from "@/mixins";
 
 export default {
   components: { Info },
-  mixins: [infoMixins, filters],
+  mixins: [infoMixins],
   data() {
     return {
       attributes: [

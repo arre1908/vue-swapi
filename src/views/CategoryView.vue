@@ -39,7 +39,7 @@ export default {
       next: this.$route.path.split("/")[1],
       items: [],
       isLoading: true,
-      error: null
+      error: false
     };
   },
   created() {
@@ -49,7 +49,7 @@ export default {
     fetchData() {
       // fetch data from API and append results
       this.isLoading = true;
-      this.error = null;
+      this.error = false;
       apiClient
         .get(this.next)
         .then(response => {
@@ -57,8 +57,8 @@ export default {
           this.items = this.items.concat(response.data.results);
           this.next = response.data.next;
         })
-        .catch(error => {
-          this.error = error;
+        .catch(() => {
+          this.error = true;
         })
         .finally(() => {
           this.isLoading = false;

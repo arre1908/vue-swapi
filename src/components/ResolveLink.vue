@@ -1,12 +1,14 @@
 <template>
   <span class="text-capitalize">
-    <router-link v-if="url" :to="stripBaseUrl(url)">
+    <router-link v-if="route" :to="stripBaseUrl(route)">
       {{ label }}
     </router-link>
 
     <span v-else-if="isLoading">Loading...</span>
 
-    <span v-else-if="error">{{ error }}</span>
+    <span v-else-if="error" class="error-link" @click="resolveLink()">
+      Error - Try Again
+    </span>
   </span>
 </template>
 
@@ -19,10 +21,11 @@ export default {
   },
   data() {
     return {
-      url: "",
+      api: "",
+      route: "",
       label: "",
       isLoading: false,
-      error: null
+      error: false
     };
   },
   created() {
@@ -33,15 +36,17 @@ export default {
       case "string":
         // Homeworld
         if (this.data.length) {
-          this.resolveLink(this.data);
+          this.api = this.data;
+          this.resolveLink();
         }
         break;
       case "object":
         // Species
         if (this.data.length) {
-          this.resolveLink(this.data[0]);
+          this.api = this.data[0];
+          this.resolveLink();
         } else {
-          this.url = "/species/1/";
+          this.route = "/species/1/";
           this.label = "Human";
         }
         break;
@@ -49,16 +54,17 @@ export default {
   },
   methods: {
     stripBaseUrl,
-    resolveLink(url) {
+    resolveLink() {
       this.isLoading = true;
+      this.error = false;
       apiClient
-        .get(url)
+        .get(this.api)
         .then(response => {
-          this.url = stripBaseUrl(response.data.url);
+          this.route = stripBaseUrl(response.data.url);
           this.label = response.data.name;
         })
-        .catch(error => {
-          this.error = error;
+        .catch(() => {
+          this.error = true;
         })
         .finally(() => {
           this.isLoading = false;
@@ -67,3 +73,17 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+@use "@/css/variables";
+
+.error-link {
+  color: variables.$link;
+  text-decoration: underline;
+
+  &:hover {
+    color: variables.$link-secondary;
+    cursor: pointer;
+  }
+}
+</style>

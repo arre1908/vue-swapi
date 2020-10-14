@@ -8,7 +8,7 @@
 export default {
   props: {
     loading: { type: Boolean, required: true },
-    error: { type: null, default: null },
+    error: { type: Boolean, default: false },
     text: { type: String, default: null }
   },
   computed: {
@@ -16,7 +16,7 @@ export default {
       if (this.loading) {
         return "Loading...";
       } else if (this.error) {
-        return "Error: Try Again";
+        return "Error - Try Again";
       } else {
         return this.text || "Load";
       }

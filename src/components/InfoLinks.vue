@@ -29,7 +29,7 @@ export default {
     return {
       resolvedData: [],
       isLoading: false,
-      error: null
+      error: false
     };
   },
   created() {
@@ -41,14 +41,14 @@ export default {
       // Load data from list of API links
       let promises = this.links.map(url => apiClient.get(url));
       this.isLoading = true;
-      this.error = null;
+      this.error = false;
 
       Promise.all(promises)
         .then(responses => {
           this.resolvedData = responses.map(response => response.data);
         })
-        .catch(error => {
-          this.error = error;
+        .catch(() => {
+          this.error = true;
         })
         .finally(() => {
           this.isLoading = false;

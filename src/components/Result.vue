@@ -47,7 +47,6 @@ export default {
   border: 1px solid variables.$bg-secondary;
   border-radius: 10px;
   overflow: hidden;
-  transition: all 0.2s;
 
   &.default {
     img {
@@ -77,10 +76,17 @@ export default {
   .content {
     padding: 10px 10px;
   }
+}
 
-  &:hover {
-    color: variables.$link;
-    transform: scale(1.05);
+/* Desktop styles */
+@media all and (min-width: 1025px) {
+  .card {
+    transition: transform 0.2s;
+
+    &:hover {
+      color: variables.$link;
+      transform: scale(1.05);
+    }
   }
 }
 </style>

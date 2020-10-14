@@ -6,7 +6,7 @@ const infoMixins = {
       item: {},
       attributes: [],
       links: [],
-      error: ""
+      error: null
     };
   },
   created() {
@@ -20,8 +20,12 @@ const infoMixins = {
         .then(response => {
           this.handleData(response.data);
         })
-        .catch(err => {
-          this.error = err;
+        .catch(error => {
+          if (error.response && error.response.status === 404) {
+            this.$router.replace("/404");
+          } else {
+            this.error = error;
+          }
         });
     },
     handleData(data) {

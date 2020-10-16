@@ -1,5 +1,5 @@
 <template>
-  <img :src="imgUrl" @error="onError" />
+  <img :src="imgUrl" @error.once="onError" />
 </template>
 
 <script>
@@ -23,12 +23,9 @@ export default {
   },
   methods: {
     onError(event) {
-      // Use "not found" image
-      event.target.onerror = null;
+      // Use placeholder for missing image
       event.target.src = this.placeholderImg;
     }
   }
 };
 </script>
-
-<style lang="scss" scoped></style>

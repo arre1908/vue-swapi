@@ -7,9 +7,7 @@
     </h1>
 
     <div class="card">
-      <img
-        src="https://via.placeholder.com/400x400.jpg/3d4049/dddddd/?text=NO+IMAGE+FOUND"
-      />
+      <ResultImage :url="item.url" />
 
       <!-- Text Attributes -->
       <div class="content">
@@ -47,9 +45,10 @@
 <script>
 import ResolveLink from "@/components/ResolveLink";
 import InfoLinks from "@/components/InfoLinks";
+import ResultImage from "@/components/ResultImage";
 
 export default {
-  components: { ResolveLink, InfoLinks },
+  components: { ResolveLink, InfoLinks, ResultImage },
   props: {
     item: { type: Object, required: true },
     attributes: { type: Array, required: true },
@@ -63,7 +62,7 @@ export default {
 
 .card {
   display: flex;
-  border: 1px solid variables.$bg-secondary;
+  background-color: variables.$bg-header;
   border-radius: 10px;
   overflow: hidden;
 

@@ -5,7 +5,7 @@
       <Result
         v-for="[index, item] of items.entries()"
         :key="index"
-        :data="item"
+        :item="item"
         :mini="mini"
       />
     </transition-group>

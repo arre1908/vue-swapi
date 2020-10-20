@@ -6,31 +6,19 @@
       </slot>
     </h1>
 
-    <div class="card">
-      <ResultImage :url="item.url" />
-
-      <!-- Text Attributes -->
-      <div class="content">
-        <div
-          v-for="{ key, label, link } of attributes"
-          :key="key"
-          class="attributes"
-        >
+    <Card :item="item" :rows="true">
+      <div class="attributes">
+        <div v-for="{ key, label, link } of attributes" :key="key" class="attr">
           <div class="label">{{ label }}:</div>
 
-          <!-- Optional cell slot -->
-          <div>
-            <slot :name="key">
-              <!-- Link -->
-              <ResolveLink v-if="link" :data="item[key]" />
+          <!-- Link -->
+          <ResolveLink v-if="link" :data="item[key]" />
 
-              <!-- Text -->
-              <span v-else class="text-capitalize">{{ item[key] }}</span>
-            </slot>
-          </div>
+          <!-- Text -->
+          <span v-else class="text-capitalize">{{ item[key] }}</span>
         </div>
       </div>
-    </div>
+    </Card>
 
     <!-- Links -->
     <InfoLinks
@@ -43,12 +31,12 @@
 </template>
 
 <script>
+import Card from "@/components/Card";
 import ResolveLink from "@/components/ResolveLink";
 import InfoLinks from "@/components/InfoLinks";
-import ResultImage from "@/components/ResultImage";
 
 export default {
-  components: { ResolveLink, InfoLinks, ResultImage },
+  components: { Card, ResolveLink, InfoLinks },
   props: {
     item: { type: Object, required: true },
     attributes: { type: Array, required: true },
@@ -60,41 +48,17 @@ export default {
 <style lang="scss" scoped>
 @use "@/css/variables";
 
-.card {
-  display: flex;
-  background-color: variables.$bg-header;
-  border-radius: 10px;
-  overflow: hidden;
+.attributes {
+  padding: 20px;
 
-  img {
-    max-width: 50%;
-  }
+  .attr {
+    display: flex;
+    flex-flow: row wrap;
+    margin: 5px 0;
 
-  .content {
-    padding: 15px;
-
-    .attributes {
-      display: flex;
-      flex-flow: row wrap;
-      margin: 5px 0;
-
-      .label {
-        font-weight: bold;
-        margin-right: 10px;
-      }
-    }
-  }
-}
-
-/* Mobile styles */
-@media all and (max-width: 576px) {
-  .card {
-    flex-direction: column;
-
-    img {
-      max-width: unset;
-      width: 100%;
-      height: auto;
+    .label {
+      font-weight: bold;
+      margin-right: 10px;
     }
   }
 }

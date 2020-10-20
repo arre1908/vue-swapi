@@ -2,30 +2,34 @@
   <div>
     <!-- Results -->
     <transition-group name="results" tag="div" :class="gridClasses">
-      <Result
+      <router-link
         v-for="[index, item] of items.entries()"
         :key="index"
-        :item="item"
-        :mini="mini"
-      />
+        :to="stripBaseUrl(item.url)"
+        class="link-wrapper"
+      >
+        <Card :item="item" :mini="mini" class="hover-animate" />
+      </router-link>
     </transition-group>
   </div>
 </template>
 
 <script>
-import Result from "@/components/Result";
+import Card from "@/components/Card";
+import { stripBaseUrl } from "@/apiService";
 
 export default {
-  components: { Result },
+  components: { Card },
   props: {
     items: { type: Array, required: true },
     mini: { type: Boolean, default: false }
   },
   computed: {
     gridClasses() {
-      return ["results-grid", this.mini ? "mini" : "default"];
+      return ["results-grid", { mini: this.mini }];
     }
-  }
+  },
+  methods: { stripBaseUrl }
 };
 </script>
 
@@ -34,17 +38,25 @@ export default {
 
 .results-grid {
   display: grid;
+  grid-template-columns: repeat(5, 1fr);
   gap: 1rem;
-
-  &.default {
-    grid-template-columns: repeat(5, 1fr);
-  }
 
   &.mini {
     grid-template-columns: repeat(4, 1fr);
   }
 }
 
+.link-wrapper {
+  color: variables.$text-primary;
+  text-decoration: none;
+
+  // Card
+  & > div {
+    height: 100%;
+  }
+}
+
+/* transition-group animation */
 .results-enter-active {
   transition: all 0.3s;
 }
@@ -54,25 +66,48 @@ export default {
   transform: translateY(-1rem);
 }
 
-/* Tablet styles */
-@media all and (max-width: 1024px) {
-  .results-grid.default {
-    grid-template-columns: repeat(4, 1fr);
-  }
+/* Desktop styles */
+@media all and (min-width: 1025px) {
+  .hover-animate {
+    transition: transform 0.2s;
 
-  .results-grid.mini {
+    &:hover {
+      color: variables.$link;
+      transform: scale(1.05);
+    }
+  }
+}
+
+/* Laptop styles */
+@media all and (max-width: 1024px) {
+  .results-grid {
+    grid-template-columns: repeat(4, 1fr);
+
+    &.mini {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+
+/* Tablet styles */
+@media all and (max-width: 768px) {
+  .results-grid {
     grid-template-columns: repeat(3, 1fr);
+
+    &.mini {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 }
 
 /* Mobile styles */
 @media all and (max-width: 576px) {
-  .results-grid.default {
+  .results-grid {
     grid-template-columns: repeat(2, 1fr);
-  }
 
-  .results-grid.mini {
-    grid-template-columns: repeat(1, 1fr);
+    &.mini {
+      grid-template-columns: repeat(1, 1fr);
+    }
   }
 }
 </style>

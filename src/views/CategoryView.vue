@@ -56,7 +56,13 @@ export default {
         .then(response => {
           // Append response data to list of items
           this.items = this.items.concat(response.data.results);
-          this.next = stripBaseUrl(response.data.next);
+
+          // Update URL for the next page
+          if (response.data.next) {
+            this.next = stripBaseUrl(response.data.next);
+          } else {
+            this.next = null;
+          }
         })
         .catch(() => {
           this.error = true;

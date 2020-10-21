@@ -9,12 +9,12 @@ const apiClient = axios.create({
   }
 });
 
-function stripBaseUrl(url) {
-  if (url.slice(0, 5) === "https") {
-    return url.replace(baseURL, "");
-  } else {
-    return url.replace(baseURL.replace("https", "http"), "");
-  }
+function stripBaseUrl(url, append = "") {
+  // Remove URL
+  let strippedUrl = url.replace(/https?:\/\/(www\.)?swapi\.dev\/api/, "");
+
+  // Remove trailing "/" and concat 'append' string
+  return strippedUrl.replace(/\/$/, "").concat(append);
 }
 
 export { apiClient, stripBaseUrl };

@@ -1,6 +1,6 @@
 <template>
   <span class="text-capitalize">
-    <router-link v-if="route" :to="stripBaseUrl(route)">
+    <router-link v-if="link" :to="link">
       {{ label }}
     </router-link>
 
@@ -21,8 +21,8 @@ export default {
   },
   data() {
     return {
-      api: "",
-      route: "",
+      url: "",
+      link: "",
       label: "",
       isLoading: false,
       error: false
@@ -36,31 +36,30 @@ export default {
       case "string":
         // Homeworld
         if (this.data.length) {
-          this.api = this.data;
+          this.url = this.data;
           this.resolveLink();
         }
         break;
       case "object":
         // Species
         if (this.data.length) {
-          this.api = this.data[0];
+          this.url = this.data[0];
           this.resolveLink();
         } else {
-          this.route = "/species/1/";
+          this.link = "/species/1";
           this.label = "Human";
         }
         break;
     }
   },
   methods: {
-    stripBaseUrl,
     resolveLink() {
       this.isLoading = true;
       this.error = false;
       apiClient
-        .get(this.api)
+        .get(stripBaseUrl(this.url, "/"))
         .then(response => {
-          this.route = stripBaseUrl(response.data.url);
+          this.link = stripBaseUrl(response.data.url);
           this.label = response.data.name;
         })
         .catch(() => {

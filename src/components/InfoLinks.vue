@@ -36,10 +36,11 @@ export default {
     this.resolveLinks();
   },
   methods: {
-    stripBaseUrl: stripBaseUrl,
     resolveLinks() {
       // Load data from list of API links
-      let promises = this.links.map(url => apiClient.get(url));
+      let promises = this.links.map(url => {
+        return apiClient.get(stripBaseUrl(url, "/"));
+      });
       this.isLoading = true;
       this.error = false;
 

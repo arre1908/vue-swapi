@@ -28,21 +28,22 @@
 import Searchbar from "@/components/Searchbar";
 import ResultsGrid from "@/components/ResultsGrid";
 import LoadButton from "@/components/LoadButton";
-import { apiClient } from "@/apiService";
+import { apiClient, stripBaseUrl } from "@/apiService";
 
 export default {
   name: "CategoryView",
   components: { Searchbar, ResultsGrid, LoadButton },
   data() {
     return {
-      path: this.$route.path.split("/")[1],
-      next: this.$route.path.split("/")[1],
+      path: stripBaseUrl(this.$route.path, "/"),
+      next: "",
       items: [],
       isLoading: true,
       error: false
     };
   },
   created() {
+    this.next = this.path;
     this.fetchData();
   },
   methods: {
@@ -55,7 +56,7 @@ export default {
         .then(response => {
           // Append response data to list of items
           this.items = this.items.concat(response.data.results);
-          this.next = response.data.next;
+          this.next = stripBaseUrl(response.data.next);
         })
         .catch(() => {
           this.error = true;

@@ -1,4 +1,4 @@
-import { apiClient } from "@/apiService";
+import { apiClient, stripBaseUrl } from "./apiService";
 
 const infoMixins = {
   data() {
@@ -16,7 +16,7 @@ const infoMixins = {
     fetchData() {
       this.error = "";
       return apiClient
-        .get(this.$route.path)
+        .get(stripBaseUrl(this.$route.path, "/"))
         .then(response => {
           this.handleData(response.data);
         })

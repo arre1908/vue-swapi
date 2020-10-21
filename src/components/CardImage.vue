@@ -17,8 +17,7 @@ export default {
         : "/img/placeholder-400.jpg";
     },
     imgUrl() {
-      let url = stripBaseUrl(this.url);
-      return `/img/${url.slice(1, url.length - 1)}.jpg`;
+      return `/img${stripBaseUrl(this.url, ".jpg")}`;
     }
   },
   methods: {

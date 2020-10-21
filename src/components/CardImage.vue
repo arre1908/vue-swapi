@@ -10,14 +10,17 @@ export default {
     url: { type: String, required: true },
     mini: { type: Boolean, default: false }
   },
+  data() {
+    return { publicPath: process.env.BASE_URL };
+  },
   computed: {
     placeholderImg() {
       return this.mini
-        ? "/img/placeholder-100.jpg"
-        : "/img/placeholder-400.jpg";
+        ? `${this.publicPath}img/placeholder-100.jpg`
+        : `${this.publicPath}img/placeholder-400.jpg`;
     },
     imgUrl() {
-      return `/img${stripBaseUrl(this.url, ".jpg")}`;
+      return `${this.publicPath}img${stripBaseUrl(this.url, ".jpg")}`;
     }
   },
   methods: {

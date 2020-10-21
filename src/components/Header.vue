@@ -3,7 +3,7 @@
     <header :class="{ 'mb-expand': expandMenu }">
       <!-- Logo -->
       <router-link to="/">
-        <img id="logo" src="../assets/logo.png" alt="Vue-SWAPI" />
+        <img id="logo" src="@/assets/logo.png" alt="Vue-SWAPI" />
       </router-link>
 
       <!-- Menu Button -->

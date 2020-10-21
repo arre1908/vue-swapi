@@ -11,11 +11,14 @@
         <div v-for="{ key, label, link } of attributes" :key="key" class="attr">
           <div class="label">{{ label }}:</div>
 
-          <!-- Link -->
-          <ResolveLink v-if="link" :data="item[key]" />
+          <!-- Optional slot -->
+          <slot :name="key">
+            <!-- Link -->
+            <ResolveLink v-if="link" :data="item[key]" />
 
-          <!-- Text -->
-          <span v-else class="text-capitalize">{{ item[key] }}</span>
+            <!-- Text -->
+            <span v-else class="text-capitalize">{{ item[key] }}</span>
+          </slot>
         </div>
       </div>
     </Card>

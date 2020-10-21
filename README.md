@@ -1,24 +1,41 @@
-# vue-swapi
+# Vue SWAPI
+
+This is a showcase of the Star Wars API ([SWAPI](https://swapi.dev)) created with Vue JS.
+
+Demo: [luisarredondo.com/vue-swapi](https://luisarredondo.com/vue-swapi)
+
+## Branches
+
+`master`: Source code
+
+`gh-pages`: Bundled files for Github Pages
 
 ## Project setup
+
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Compile and hot-reload for development
+
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Compile and minify for production
+
 ```
 npm run build
 ```
 
-### Lints and fixes files
+### Lint and fixes files
+
 ```
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Run script to build and deploy to `gh-pages` branch
+
+```
+npm run deploy
+```
